@@ -13,6 +13,7 @@ import argparse
 
 from pvcheetah import CheetahActivationLimitError, create
 from pvrecorder import PvRecorder
+import pvkoala
 
 # Initialize the scoring 
 teleopSpeakerShots = 0
@@ -23,7 +24,7 @@ notesDropped = 0
 pickUps = 0
 end = False
 
-keywordKey = [[teleopSpeakerShots, "speaker"], [autoSpeakerShots, "speaker"], [teleopAmpShots, "amp"], [autoAmpShots, "amp"], [notesDropped, "drop"], [pickUps, "pick"], [False, "autonomous"], [False, "finished"], [False, "driver"]]
+keywordKey = [[teleopSpeakerShots, "speaker"], [autoSpeakerShots, "speaker"], [teleopAmpShots, "amp"], [autoAmpShots, "amp"], [notesDropped, "drop"], [pickUps, "pick"], [False, "autonomous"], [False, "finished"], [False, "driver"]] #TODO: Add onstage + trap + non functional + spotlight + defense bot + disabled/damaged + pickups teleop/auton
 def Update(search_string, auto):
 	for i, tup in enumerate(keywordKey):
 		if "stop" in search_string.lower():
@@ -83,6 +84,8 @@ def main():
         model_path=args.model_path,
         endpoint_duration_sec=args.endpoint_duration_sec,
         enable_automatic_punctuation=not args.disable_automatic_punctuation)
+    koala = pvkoala.create(access_key=args.access_key)
+
 
     try:
         print('Cheetah version : %s' % cheetah.version)
