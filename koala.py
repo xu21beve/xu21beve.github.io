@@ -23,7 +23,7 @@ VU_DYNAMIC_RANGE_DB = 50.0
 VU_MAX_BAR_LENGTH = 30
 
 
-def main():
+def koala(frame):
     parser = argparse.ArgumentParser()
     parser.add_argument(
         '--access_key',
@@ -52,21 +52,21 @@ def main():
     if args.access_key is None:
         raise ValueError('Missing required argument --access_key')
 
-    if args.output_path is None:
-        raise ValueError('Missing required argument --output_path')
+    # if args.output_path is None:
+    #     raise ValueError('Missing required argument --output_path')
 
-    if not args.output_path.lower().endswith('.wav'):
-        raise ValueError('Given argument --output_path must have WAV file extension')
+    # if not args.output_path.lower().endswith('.wav'):
+    #     raise ValueError('Given argument --output_path must have WAV file extension')
 
     if args.reference_output_path is not None and not args.reference_output_path.lower().endswith('.wav'):
         raise ValueError('Given argument --reference_output_path must have WAV file extension')
 
-    koala = create(
+    koala = pvkoala.create(
         access_key=args.access_key,
-        model_path=args.model_path,
         library_path=args.library_path)
 
     length_sec = 0.0
+    enhanced_frame = koala.process(frame)
     try:
         print('Koala version: %s' % koala.version)
 
@@ -76,10 +76,10 @@ def main():
 
         try:
             with contextlib.ExitStack() as file_stack:
-                output_file = file_stack.enter_context(wave.open(args.output_path, 'wb'))
-                output_file.setnchannels(1)
-                output_file.setsampwidth(2)
-                output_file.setframerate(koala.sample_rate)
+                # output_file = file_stack.enter_context(wave.open(args.output_path, 'wb'))
+                # output_file.setnchannels(1)
+                # output_file.setsampwidth(2)
+                # output_file.setframerate(koala.sample_rate)
 
                 reference_file = None
                 if args.reference_output_path is not None:
@@ -87,30 +87,31 @@ def main():
                     reference_file.setnchannels(1)
                     reference_file.setsampwidth(2)
                     reference_file.setframerate(koala.sample_rate)
+                # while True:
+                    # input_frame = recorder.read()
+                if reference_file is not None:
+                    reference_file.writeframes(struct.pack('%dh' % len(frame), *frame))
 
-                while True:
-                    input_frame = recorder.read()
-                    if reference_file is not None:
-                        reference_file.writeframes(struct.pack('%dh' % len(input_frame), *input_frame))
+                enhanced_frame = koala.process(frame)
+                    # cheetah2.main(enhanced_frame)
+                    # output_file.writeframes(struct.pack('%dh' % len(enhanced_frame), *enhanced_frame))
+                length_sec += koala.frame_length / koala.sample_rate
 
-                    enhanced_frame = koala.process(input_frame)
-                    cheetah2.main(enhanced_frame)
-                    output_file.writeframes(struct.pack('%dh' % len(enhanced_frame), *enhanced_frame))
-                    length_sec += koala.frame_length / koala.sample_rate
-
-                    input_volume = sum((x / 32768.0) ** 2 for x in input_frame) / koala.frame_length
-                    input_volume = max(min(1 + 10 * math.log10(input_volume + 1e-10) / VU_DYNAMIC_RANGE_DB, 1), 0)
-                    bar_length = int(input_volume * VU_MAX_BAR_LENGTH)
-                    print(
-                        '\r[%3d%%]%s%s|' % (
-                            input_volume * 100,
-                            '#' * bar_length,
-                            ' ' * (VU_MAX_BAR_LENGTH - bar_length)),
-                        end='',
-                        flush=True)
+                # input_volume = sum((x / 32768.0) ** 2 for x in frame) / koala.frame_length
+                # input_volume = max(min(1 + 10 * math.log10(input_volume + 1e-10) / VU_DYNAMIC_RANGE_DB, 1), 0)
+                # bar_length = int(input_volume * VU_MAX_BAR_LENGTH)
+                # print(
+                #     '\r[%3d%%]%s%s|' % (
+                #         input_volume * 100,
+                #         '#' * bar_length,
+                #         ' ' * (VU_MAX_BAR_LENGTH - bar_length)),
+                #     end='',
+                #     flush=True)
+                # print("got to enhanced frame part")
 
         finally:
             recorder.stop()
+            return enhanced_frame
 
     except KeyboardInterrupt:
         print()
@@ -125,5 +126,114 @@ def main():
         koala.delete()
 
 
+import argparse
+
+from pvcheetah import CheetahActivationLimitError, create
+from pvrecorder import PvRecorder
+import pvkoala
+
+# Initialize the scoring 
+teleopSpeakerShots = 0
+autoSpeakerShots = 0
+teleopAmpShots = 0
+autoAmpShots = 0
+notesDropped = 0
+pickUps = 0
+end = False
+
+keywordKey = [[teleopSpeakerShots, "speaker"], [autoSpeakerShots, "speaker"], [teleopAmpShots, "amp"], [autoAmpShots, "amp"], [notesDropped, "drop"], [pickUps, "pick"], [False, "autonomous"], [False, "finished"], [False, "driver"]] #TODO: Add onstage + trap + non functional + spotlight + defense bot + disabled/damaged + pickups teleop/auton
+def Update(search_string, auto):
+	for i, tup in enumerate(keywordKey):
+		if "stop" in search_string.lower():
+			keywordKey[7][0] = True
+			return
+		elif "auto" in search_string.lower():
+			keywordKey[6][0] = True
+			return
+		elif "driver" in search_string.lower(): 
+			keywordKey[8][0] = True
+			return
+		if tup[1] in search_string.lower():
+            # Increment the second value of the tuple
+			if keywordKey[6][0] and i == 0 or i == 2:
+				continue
+			keywordKey[i] = (tup[0] + 1, tup[1])
+			return
+
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        '--access_key',
+        help='AccessKey obtained from Picovoice Console (https://console.picovoice.ai/)')
+    parser.add_argument(
+        '--library_path',
+        help='Absolute path to dynamic library. Default: using the library provided by `pvcheetah`')
+    parser.add_argument(
+        '--model_path',
+        help='Absolute path to Cheetah model. Default: using the model provided by `pvcheetah`')
+    parser.add_argument(
+        '--endpoint_duration_sec',
+        type=float,
+        default=1.,
+        help='Duration in seconds for speechless audio to be considered an endpoint')
+    parser.add_argument(
+        '--disable_automatic_punctuation',
+        action='store_true',
+        help='Disable insertion of automatic punctuation')
+    parser.add_argument('--audio_device_index', type=int, default=-1, help='Index of input audio device')
+    parser.add_argument('--show_audio_devices', action='store_true', help='Only list available devices and exit')
+    args = parser.parse_args()
+
+    if args.show_audio_devices:
+        for index, name in enumerate(PvRecorder.get_available_devices()):
+            print('Device #%d: %s' % (index, name))
+        return
+
+    if not args.access_key:
+        print('--access_key is required.')
+        return
+
+    cheetah = create(
+        access_key=args.access_key,
+        library_path=args.library_path,
+        model_path=args.model_path,
+        endpoint_duration_sec=args.endpoint_duration_sec,
+        enable_automatic_punctuation=not args.disable_automatic_punctuation)
+    # koala = pvkoala.create(access_key=args.access_key)
+
+
+    try:
+        print('Cheetah version : %s' % cheetah.version)
+
+        recorder = PvRecorder(frame_length=256, device_index=args.audio_device_index)
+        recorder.start()
+        print('Listening... (press Ctrl+C to stop)')
+
+        try:
+            while True:
+                partial_transcript, is_endpoint = cheetah.process(koala(recorder.read()))
+                print(partial_transcript, end='', flush=True)
+                if is_endpoint:
+                    print(cheetah.flush())
+                    if keywordKey[7][0]:
+                        print(keywordKey)
+                        break
+        finally:
+            print()
+            recorder.stop()
+
+    except KeyboardInterrupt:
+        pass
+    except CheetahActivationLimitError:
+        print('AccessKey has reached its processing limit.')
+    finally:
+        cheetah.delete()
+
+
 if __name__ == '__main__':
     main()
+
+# if __name__ == '__main__':
+#     main()
