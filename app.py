@@ -20,7 +20,7 @@ def upload():
     data, samplerate = sf.read(audio_path)
     sf.write(audio_path, data, samplerate, format='WAV', subtype='PCM_16')
 
-    return send_file(audio_path, as_attachment=True)
+    return send_file(audio_path, as_attachment=False)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
