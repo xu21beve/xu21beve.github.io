@@ -1,9 +1,9 @@
-name: Python application
+name: Deploy
 
 on:
   push:
     branches:
-      - main  # Set the branch you want to deploy
+      - main  # or your default branch
 
 jobs:
   deploy:
@@ -16,13 +16,16 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.9'
+        python-version: '3.x'
 
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        pip install Flask soundfile
 
-    - name: Start Flask server
-      run: |
-        python app.py
+    - name: Deploy to Heroku
+      uses: akhileshns/heroku-deploy@v3.12.12
+      with:
+        heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+        heroku_app_name: your-app-name
+        heroku_email: your-email@example.com
