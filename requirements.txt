@@ -6,3 +6,4 @@ pvcheetah==2.0.1
 Flask==2.1.0
 sounddevice==0.4.2
 numpy==1.22.3
+Werkzeug==2.1.1
