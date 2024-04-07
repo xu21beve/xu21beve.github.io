@@ -14,36 +14,96 @@ import argparse
 from pvcheetah import CheetahActivationLimitError, create
 from pvrecorder import PvRecorder
 import pvkoala
+import wave
 
 # Initialize the scoring 
+inAutonomous = False
+inTeleop = False
 teleopSpeakerShots = 0
 autoSpeakerShots = 0
 teleopAmpShots = 0
 autoAmpShots = 0
 notesDropped = 0
 pickUps = 0
-end = False
+nonfunctionalRobot = False
+highNotes = 0
+trapScored = False
+blockedOpponentRobot = 0 # counts how many times the robot blocks another robot
+amplified = 0 # counts how many times amplified
+defenseRobot = False
+spotlit = True # is only true for the robot that is currently hanging
+disabledRobot = False
+damagedRobot = False
+onstage = False
+harmony = False
+justDid = 0 # 0 - nothing, 1 - speaker attempted, 2 - amp attempted, 3 - pickup attempted
 
-keywordKey = [[teleopSpeakerShots, "speaker"], [autoSpeakerShots, "speaker"], [teleopAmpShots, "amp"], [autoAmpShots, "amp"], [notesDropped, "drop"], [pickUps, "pick"], [False, "autonomous"], [False, "finished"], [False, "driver"]] #TODO: Add onstage + trap + non functional + spotlight + defense bot + disabled/damaged + pickups teleop/auton
-def Update(search_string, auto):
+keywordKey = [[nonfunctionalRobot, "functional robot"], [damagedRobot, "damaged"], [disabledRobot, "disabled"], [defenseRobot, "defense"], [harmony, "harmony"], [spotlit, "spotlit"], [amplified, "amplified"], [onstage, "onstage"], [blockedOpponentRobot, "blocked"], [trapScored, "trap"], [highNotes, "high note"], [teleopSpeakerShots, "teleop speaker"], [autoSpeakerShots, "auton speaker"], [teleopAmpShots, "teleop amping"], [autoAmpShots, "auton amping"], [notesDropped, "drop"], [pickUps, "pickup"]]
+def Update(search_string):
 	for i, tup in enumerate(keywordKey):
-		if "stop" in search_string.lower():
-			keywordKey[7][0] = True
-			return
-		elif "auto" in search_string.lower():
-			keywordKey[6][0] = True
-			return
+		if "autonomous" in search_string.lower() or inAutonomous:
+			inAutonomous = True
+			if "pickup" in search_string.lower():
+				pickUps += 1
+				justDid = 3
+			if "speaker" in search_string.lower():
+				autonSpeakerShots += 1
+				justDid = 1
+			if "amp" in search_string.lower():
+				autonAmpShots += 1
+				justDid = 2
+			if "drop" in search_string.lower():
+				if justDid == 0:
+					return
+				elif justDid == 1:
+					autonSpeakerShots -= 1
+				elif justDid == 2:
+					autonAmpShots -= 1
+				notesDropped += 1					
 		elif "driver" in search_string.lower(): 
-			keywordKey[8][0] = True
-			return
-		if tup[1] in search_string.lower():
-            # Increment the second value of the tuple
-			if keywordKey[6][0] and i == 0 or i == 2:
-				continue
-			keywordKey[i] = (tup[0] + 1, tup[1])
-			return
+			inAutonomous = False
+			inTeleop = True
+			if "pickup" in search_string.lower():
+				pickUps += 1
+				justDid = 3
+			if "speaker" in search_string.lower():
+				teleopSpeakerShots += 1
+				justDid = 1
+			if "amp" in search_string.lower():
+				teleopAmpShots += 1
+				justDid = 2
+			if "drop" in search_string.lower():
+				if justDid == 0:
+					return
+				elif justDid == 1:
+					teleopSpeakerShots -= 1
+				elif justDid == 2:
+					teleopAmpShots -= 1
+				notesDropped += 1
+			if "onstage" in search_string.lower():
+				onstage = True
+			if "trap" in search_string.lower():
+				trapScored = True
+			if "defense" in search_string.lower():
+				defenseRobot = True
+			if "disabled" in search_string.lower():
+				disabledRobot = True
+			if "harmony" in search_string.lower():
+				harmony = True
+			if "spotlit" in search_string.lower():
+				spotlit = True
+			if "amplified" in search_string.lower():
+				amplified += 1
+			if "blocked" in search_string.lower():
+				blockedOpponentRobot += 1
+			if "high" in search_string.lower():
+				highNotes += 1
 
-
+def read_wav_file(file_path):
+    with wave.open(file_path, 'rb') as wf:
+        rate = wf.getframerate()
+        audio_data = wf.readframes(wf.getnframes())
+        return audio_data, rate
 
 def main():
     parser = argparse.ArgumentParser()
@@ -65,6 +125,9 @@ def main():
         '--disable_automatic_punctuation',
         action='store_true',
         help='Disable insertion of automatic punctuation')
+    parser.add_argument(
+        '--input_file',
+        help='Absolute path to input file')
     parser.add_argument('--audio_device_index', type=int, default=-1, help='Index of input audio device')
     parser.add_argument('--show_audio_devices', action='store_true', help='Only list available devices and exit')
     args = parser.parse_args()
@@ -96,7 +159,8 @@ def main():
 
         try:
             while True:
-                partial_transcript, is_endpoint = cheetah.process(recorder.read())
+                # partial_transcript, is_endpoint = cheetah.process(recorder.read())
+                partial_transcript, is_endpoint = cheetah.process(read_wav_file(args.input_file))
                 print(partial_transcript, end='', flush=True)
                 if is_endpoint:
                     print(cheetah.flush())
@@ -117,3 +181,12 @@ def main():
 
 if __name__ == '__main__':
     main()
+    for tup in keywordKey:
+        print(tup[1] + str(tup[0]))
+	
+
+# import time
+# start_time = time.time()
+# # Your code here
+# end_time = time.time()
+# elapsed_time = end_time - start_time
