@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Beverly Xu — Research</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <style>
+    body { background: var(--sage); }
+
+    #research-page {
+      min-height: 100vh;
+      padding: 7rem var(--space-xl) var(--space-xl) 14rem;
+    }
+
+    .research-intro {
+      max-width: 600px;
+      font-size: 1.05rem;
+      line-height: 1.75;
+      color: var(--ink-soft);
+      margin: var(--space-md) 0 var(--space-xl);
+    }
+
+    /* Publication card — special treatment */
+    .publication-card {
+      border: var(--border-thick);
+      background: var(--ink);
+      color: var(--white);
+      box-shadow: var(--shadow-xl);
+      padding: var(--space-xl);
+      max-width: 820px;
+      margin-bottom: var(--space-xl);
+      position: relative;
+      overflow: hidden;
+    }
+    .publication-card::after {
+      content: '"';
+      position: absolute;
+      right: var(--space-lg);
+      top: -1rem;
+      font-family: var(--font-display);
+      font-size: 8rem;
+      color: var(--lavender);
+      opacity: 0.2;
+      line-height: 1;
+    }
+    .pub-venue {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      color: var(--sage-dark);
+      margin-bottom: var(--space-sm);
+      text-transform: uppercase;
+    }
+    .pub-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      line-height: 1.25;
+      margin-bottom: var(--space-md);
+      color: var(--white);
+    }
+    .pub-authors {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.65);
+      margin-bottom: var(--space-lg);
+    }
+    .pub-authors strong { color: var(--lavender); }
+    .pub-link {
+      display: inline-block;
+      border: 2px solid var(--lavender);
+      color: var(--lavender);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      padding: 4px 16px;
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: background 0.15s, color 0.15s;
+    }
+    .pub-link:hover {
+      background: var(--lavender);
+      color: var(--ink);
+    }
+
+    /* Research items */
+    .research-item {
+      border: var(--border-thick);
+      background: var(--white);
+      box-shadow: var(--shadow-md);
+      margin-bottom: var(--space-lg);
+      max-width: 820px;
+      transition: transform 0.2s var(--ease-spring), box-shadow 0.2s;
+    }
+    .research-item:hover {
+      transform: translate(-3px, -3px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .research-header {
+      padding: var(--space-lg);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: var(--space-md);
+      cursor: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s;
+    }
+    .research-item.expanded .research-header {
+      border-bottom-color: var(--ink);
+    }
+
+    .research-title {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      line-height: 1.2;
+      margin-bottom: var(--space-xs);
+    }
+    .research-meta {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--ink-soft);
+    }
+
+    .research-expand-btn {
+      background: var(--lavender);
+      border: var(--border);
+      width: 32px;
+      height: 32px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 1.2rem;
+      cursor: none;
+      transition: background 0.15s, transform 0.2s var(--ease-spring);
+    }
+    .research-item.expanded .research-expand-btn {
+      transform: rotate(45deg);
+      background: var(--ink);
+      color: var(--white);
+    }
+
+    .research-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s var(--ease-smooth);
+    }
+    .research-item.expanded .research-body {
+      max-height: 1000px;
+    }
+
+    .research-body-inner {
+      padding: var(--space-lg);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-xl);
+    }
+    @media (max-width: 700px) {
+      .research-body-inner { grid-template-columns: 1fr; }
+    }
+
+    .research-subsection {
+      margin-bottom: var(--space-md);
+    }
+    .research-sub-label {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--sage-deep);
+      margin-bottom: var(--space-xs);
+    }
+    .research-sub-content {
+      font-size: 0.92rem;
+      line-height: 1.7;
+      color: var(--ink-soft);
+    }
+
+    .research-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-xs);
+      margin-top: var(--space-sm);
+    }
+
+    /* Upcoming badge */
+    .badge-upcoming {
+      display: inline-block;
+      background: var(--sage-deep);
+      color: var(--white);
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      padding: 2px 8px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-left: var(--space-sm);
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- CURSOR -->
+  <div class="cursor cursor-ring"></div>
+  <div class="cursor cursor-dot"></div>
+
+  <!-- LOADER -->
+  <div id="loader">
+    <div class="loader-leaf">🍃</div>
+    <div class="loader-text">retrieving lab notes ...</div>
+    <div class="loader-bar"></div>
+  </div>
+
+  <!-- WIFI TOAST -->
+  <div id="wifi-toast">
+    <div class="wifi-anim">📶</div>
+    <div class="wifi-text">
+      <strong>WiFi disconnected!</strong>
+      <span>check your connection :(</span>
+    </div>
+    <button id="wifi-dismiss" style="background:none;border:none;font-family:var(--font-mono);font-size:0.8rem;cursor:none;margin-left:auto;">✕</button>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav id="navbar">
+    <div class="nav-logo">bev xu</div>
+    <ul class="nav-links">
+      <li><a href="../index.html">home</a></li>
+      <li><a href="about.html">about</a></li>
+      <li><a href="projects.html">projects</a></li>
+      <li><a href="research.html" class="active">research</a></li>
+    </ul>
+    <div class="nav-ext">
+      <a href="https://linkedin.com/in/beverly-xu-645b71221" target="_blank">linkedin ↗</a>
+      <a href="../assets/resume.pdf" target="_blank">resume ↗</a>
+      <a href="https://github.com/xu21beve" target="_blank">github ↗</a>
+    </div>
+    <button class="dark-toggle" id="dark-toggle">◑ dark</button>
+  </nav>
+
+  <main id="research-page">
+    <p class="section-label scroll-reveal">research</p>
+    <h1 class="section-title scroll-reveal">
+      The Lab<br/><em style="font-family: var(--font-display); font-style:italic; color: var(--sage-deep);">Notebooks.</em>
+    </h1>
+    <p class="research-intro scroll-reveal">
+      Click any entry to expand the full details — problem statements, methodology, and where it was presented. 
+      Research is messy and iterative; these are the highlights.
+    </p>
+
+    <!-- PUBLICATION HIGHLIGHT -->
+    <div class="publication-card scroll-reveal">
+      <p class="pub-venue">📄 IEEE CASE — August 2025</p>
+      <h2 class="pub-title">cHyRRT and cHySST: Two Motion Planning Tools<br/>for Hybrid Dynamical Systems</h2>
+      <p class="pub-authors">
+        <strong>Beverly Xu</strong> et al. — UC Santa Cruz Hybrid Systems Lab
+      </p>
+      <a href="#" class="pub-link">view paper ↗</a>
+    </div>
+
+    <!-- RESEARCH ITEMS — click to expand -->
+
+    <!-- RoboLand / USC -->
+    <div class="research-item scroll-reveal">
+      <div class="research-header">
+        <div>
+          <h3 class="research-title">
+            Robotics Research Intern — RoboLand Lab, USC
+            <span class="badge-upcoming">current</span>
+          </h3>
+          <p class="research-meta">USC · Sep 2025 – Present · Los Angeles, CA</p>
+        </div>
+        <button class="research-expand-btn">+</button>
+      </div>
+      <div class="research-body">
+        <div class="research-body-inner">
+          <div>
+            <div class="research-subsection">
+              <p class="research-sub-label">Problem Statement</p>
+              <p class="research-sub-content">PLACEHOLDER — Describe the research question or problem this lab is tackling. What challenge in robotics motivated this work?</p>
+            </div>
+            <div class="research-subsection">
+              <p class="research-sub-label">Proposed Solution / Methodology</p>
+              <p class="research-sub-content">PLACEHOLDER — What approach is the lab taking? What methods, algorithms, or systems are you working with?</p>
+            </div>
+          </div>
+          <div>
+            <div class="research-subsection">
+              <p class="research-sub-label">Date Range</p>
+              <p class="research-sub-content">September 2025 – Present</p>
+            </div>
+            <div class="research-subsection">
+              <p class="research-sub-label">Institution / Lab / Professor</p>
+              <p class="research-sub-content">RoboLand Lab, University of Southern California<br/>PLACEHOLDER — Prof. [Name]</p>
+            </div>
+            <div class="research-subsection">
+              <p class="research-sub-label">Skills Practiced</p>
+              <div class="research-tags">
+                <span class="tag-pill sage">PLACEHOLDER</span>
+                <span class="tag-pill">PLACEHOLDER</span>
+              </div>
+            </div>
+            <div class="research-subsection">
+              <p class="research-sub-label">Presented At</p>
+              <p class="research-sub-content">PLACEHOLDER — conference, lab meeting, poster session, etc.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LIAQ — Air Quality -->
+    <div class="research-item scroll-reveal">
+      <div class="research-header">
+        <div>
+          <h3 class="research-title">Intern — Lab for Investigations of Local Air Quality</h3>
+          <p class="research-meta">Claremont, CA · Sep 2025 – Present</p>
+        </div>
+        <button class="research-expand-btn">+</button>
+      </div>
+      <div class="research-body">
+        <div class="research-body-inner">
+          <div>
+            <div class="research-subsection">
+              <p class="research-sub-label">Problem Statement</p>
+              <p class="research-sub-content">
+                Monitoring hyperlocal air quality is difficult with legacy sensor middleware and fragmented data pipelines. 
+                The lab needs reliable, real-time CO₂ and meteorological data collection infrastructure.
+              </p>
+            </div>
+            <div class="research-subsection">
+              <p class="research-sub-label">Methodology</p>
+              <p class="research-sub-content">
+                Prototyped a CO₂ indicator with I2C interface to SCD41 sensor. Wrote BASH and IGOR scripts 
+                for Raspberry Pi and Windows devices to stream data to Firebase from PurpleAir and 
+                meteorological sensors on legacy middleware. Designed sensor enclosure in SolidWorks 
+                using edit-in-context assembly workflow.
+              </p>
+            </div>
+          </div>
+          <div>
+            <div class="research-subsection">
+              <p class="research-sub-label">Date Range</p>
+              <p class="research-sub-content">September 2025 – Present</p>
+            </div>
+            <div class="research-subsection">
+              <p class="research-sub-label">Institution</p>
+              <p class="research-sub-content">LIAQ, Claremont, CA</p>
+            </div>
+            <div class="research-subsection">
+              <p class="research-sub-label">Skills Practiced</p>
+              <div class="research-tags">
+                <span class="tag-pill">I2C / SCD41</span>
+                <span class="tag-pill sage">Raspberry Pi</span>
+                <span class="tag-pill cream">Firebase</span>
+                <span class="tag-pill">BASH</span>
+                <span class="tag-pill sage">IGOR Pro</span>
+                <span class="tag-pill cream">SolidWorks</span>
+              </div>
+            </div>
+            <div class="research-subsection">
+              <p class="research-sub-label">Presented At</p>
+              <p class="research-sub-content">PLACEHOLDER</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- UC Santa Cruz Hybrid Systems Lab -->
+    <div class="research-item scroll-reveal">
+      <div class="research-header">
+        <div>
+          <h3 class="research-title">Intern — Hybrid Systems Lab, UC Santa Cruz</h3>
+          <p class="research-meta">Santa Cruz, CA · Aug 2023 – Aug 2025</p>
+        </div>
+        <button class="research-expand-btn">+</button>
+      </div>
+      <div class="research-body">
+        <div class="research-body-inner">
+          <div>
+            <div class="research-subsection">
+              <p class="research-sub-label">Problem Statement</p>
+              <p class="research-sub-content">
+                Standard motion planners are designed for smooth continuous systems and fail on 
+                hybrid dynamical systems — those with both continuous flow and discrete jumps 
+                (e.g. a quadcopter bouncing off walls, a ball bouncing on a floor). 
+                No tools existed in OMPL for this class of systems.
+              </p>
+            </div>
+            <div class="research-subsection">
+              <p class="research-sub-label">Proposed Solution</p>
+              <p class="research-sub-content">
+                Implemented cHyRRT and cHySST — two novel motion planners based on 
+                RRT and SST respectively — extended to handle hybrid dynamical systems 
+                with resets. Validated on a collision-resilient quadcopter and bouncing ball model. 
+                Results published at IEEE CASE 2025.
+              </p>
+            </div>
+          </div>
+          <div>
+            <div class="research-subsection">
+              <p class="research-sub-label">Date Range</p>
+              <p class="research-sub-content">August 2023 – August 2025</p>
+            </div>
+            <div class="research-subsection">
+              <p class="research-sub-label">Institution / Lab</p>
+              <p class="research-sub-content">
+                UC Santa Cruz Hybrid Systems Lab<br/>
+                PLACEHOLDER — Prof. [Name]
+              </p>
+            </div>
+            <div class="research-subsection">
+              <p class="research-sub-label">Skills Practiced</p>
+              <div class="research-tags">
+                <span class="tag-pill">C++</span>
+                <span class="tag-pill sage">OMPL</span>
+                <span class="tag-pill cream">motion planning</span>
+                <span class="tag-pill">hybrid systems</span>
+                <span class="tag-pill sage">Python (viz)</span>
+                <span class="tag-pill cream">academic writing</span>
+                <span class="tag-pill">IEEE presentation</span>
+              </div>
+            </div>
+            <div class="research-subsection">
+              <p class="research-sub-label">Presented At</p>
+              <p class="research-sub-content">
+                IEEE CASE 2025 — August 2025
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="../js/main.js"></script>
+  <script>
+    // Research accordion
+    document.querySelectorAll('.research-item').forEach(item => {
+      item.querySelector('.research-header').addEventListener('click', () => {
+        item.classList.toggle('expanded');
+      });
+    });
+  </script>
+</body>
+</html>

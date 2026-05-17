@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>404 — Beverly Xu</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <style>
+    body {
+      background: var(--off-white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    .err-scene {
+      text-align: center;
+      position: relative;
+      padding: var(--space-xl);
+    }
+
+    /* Animated SVG illustration */
+    .err-illustration {
+      width: 320px;
+      height: 220px;
+      margin: 0 auto var(--space-xl);
+      position: relative;
+    }
+
+    /* Floating elements in illustration */
+    .ill-robot {
+      animation: robotBob 2.5s ease-in-out infinite;
+    }
+    @keyframes robotBob {
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(-12px); }
+    }
+
+    .ill-question {
+      animation: qSpin 4s ease-in-out infinite;
+    }
+    @keyframes qSpin {
+      0%,100% { transform: rotate(-8deg) translateY(0); }
+      50%      { transform: rotate(8deg) translateY(-6px); }
+    }
+
+    .ill-leaf1 { animation: leafFloat1 3s ease-in-out infinite; }
+    .ill-leaf2 { animation: leafFloat2 3.5s ease-in-out infinite; }
+    @keyframes leafFloat1 {
+      0%,100% { transform: translateY(0) rotate(10deg); }
+      50%      { transform: translateY(-15px) rotate(-5deg); }
+    }
+    @keyframes leafFloat2 {
+      0%,100% { transform: translateY(0) rotate(-15deg); }
+      50%      { transform: translateY(-10px) rotate(10deg); }
+    }
+
+    .err-code {
+      font-family: var(--font-display);
+      font-size: clamp(5rem, 18vw, 12rem);
+      line-height: 0.9;
+      color: var(--lavender);
+      -webkit-text-stroke: 3px var(--ink);
+      animation: wiggle 4s ease-in-out infinite;
+      margin-bottom: var(--space-md);
+    }
+    @keyframes wiggle {
+      0%,100% { transform: rotate(-1.5deg) skewX(-1deg); }
+      50%      { transform: rotate(1.5deg) skewX(1deg); }
+    }
+
+    .err-message {
+      font-family: var(--font-display);
+      font-size: clamp(1.2rem, 4vw, 2rem);
+      font-style: italic;
+      margin-bottom: var(--space-sm);
+    }
+
+    .err-sub {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: var(--ink-soft);
+      margin-bottom: var(--space-xl);
+      max-width: 380px;
+      line-height: 1.6;
+    }
+
+    .btn-home {
+      display: inline-block;
+      padding: var(--space-sm) var(--space-xl);
+      border: var(--border-thick);
+      background: var(--sage);
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--ink);
+      text-decoration: none;
+      box-shadow: var(--shadow-md);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: transform 0.15s var(--ease-spring), box-shadow 0.15s, background 0.15s;
+    }
+    .btn-home:hover {
+      transform: translate(-3px, -3px);
+      box-shadow: var(--shadow-lg);
+      background: var(--lavender);
+    }
+
+    /* Scattered background shapes */
+    .bg-shape {
+      position: fixed;
+      pointer-events: none;
+      z-index: 0;
+      font-size: 3rem;
+      opacity: 0.07;
+    }
+    .bg-shape:nth-child(1) { top: 10%; left: 8%;  animation: leafFloat1 5s infinite; }
+    .bg-shape:nth-child(2) { top: 70%; left: 5%;  animation: leafFloat2 6s infinite; }
+    .bg-shape:nth-child(3) { top: 20%; right: 8%; animation: leafFloat1 4s infinite; }
+    .bg-shape:nth-child(4) { top: 80%; right: 6%; animation: leafFloat2 7s infinite; }
+    .bg-shape:nth-child(5) { top: 45%; left: 50%; animation: leafFloat1 5.5s infinite; }
+
+    .err-scene { position: relative; z-index: 1; }
+  </style>
+</head>
+<body>
+  <!-- CURSOR -->
+  <div class="cursor cursor-ring"></div>
+  <div class="cursor cursor-dot"></div>
+
+  <!-- Background decoration -->
+  <div class="bg-shape">🍃</div>
+  <div class="bg-shape">⚡</div>
+  <div class="bg-shape">🌿</div>
+  <div class="bg-shape">🔌</div>
+  <div class="bg-shape">⚙️</div>
+
+  <div class="err-scene">
+
+    <!-- SVG animated illustration -->
+    <div class="err-illustration">
+      <svg viewBox="0 0 320 220" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+
+        <!-- Ground line -->
+        <line x1="40" y1="190" x2="280" y2="190" stroke="#1a1a2e" stroke-width="2.5" stroke-linecap="round"/>
+
+        <!-- Robot body -->
+        <g class="ill-robot" transform="translate(120, 60)">
+          <!-- body -->
+          <rect x="10" y="30" width="60" height="55" rx="4" fill="#C8C8E9" stroke="#1a1a2e" stroke-width="2.5"/>
+          <!-- head -->
+          <rect x="15" y="5" width="50" height="38" rx="6" fill="#D8E8C3" stroke="#1a1a2e" stroke-width="2.5"/>
+          <!-- eyes -->
+          <circle cx="30" cy="22" r="6" fill="white" stroke="#1a1a2e" stroke-width="2"/>
+          <circle cx="30" cy="22" r="3" fill="#1a1a2e"/>
+          <circle cx="50" cy="22" r="6" fill="white" stroke="#1a1a2e" stroke-width="2"/>
+          <circle cx="50" cy="22" r="3" fill="#1a1a2e"/>
+          <!-- antenna -->
+          <line x1="40" y1="5" x2="40" y2="-10" stroke="#1a1a2e" stroke-width="2.5"/>
+          <circle cx="40" cy="-13" r="4" fill="#E8E8CC" stroke="#1a1a2e" stroke-width="2"/>
+          <!-- mouth - sad squiggle -->
+          <path d="M28 38 Q35 33 40 36 Q45 39 52 35" stroke="#1a1a2e" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <!-- arms -->
+          <rect x="-12" y="35" width="22" height="10" rx="5" fill="#C8C8E9" stroke="#1a1a2e" stroke-width="2"/>
+          <rect x="70" y="35" width="22" height="10" rx="5" fill="#C8C8E9" stroke="#1a1a2e" stroke-width="2"/>
+          <!-- legs -->
+          <rect x="18" y="85" width="16" height="28" rx="4" fill="#C8C8E9" stroke="#1a1a2e" stroke-width="2"/>
+          <rect x="46" y="85" width="16" height="28" rx="4" fill="#C8C8E9" stroke="#1a1a2e" stroke-width="2"/>
+          <!-- belly panel -->
+          <rect x="22" y="42" width="36" height="22" rx="3" fill="white" stroke="#1a1a2e" stroke-width="1.5"/>
+          <circle cx="32" cy="53" r="3" fill="#D8E8C3" stroke="#1a1a2e" stroke-width="1.5"/>
+          <circle cx="40" cy="53" r="3" fill="#E8E8CC" stroke="#1a1a2e" stroke-width="1.5"/>
+          <circle cx="48" cy="53" r="3" fill="#C8C8E9" stroke="#1a1a2e" stroke-width="1.5"/>
+        </g>
+
+        <!-- Floating question mark -->
+        <g class="ill-question" transform="translate(240, 50)">
+          <text font-family="'DM Serif Display', serif" font-size="48" fill="#9898C9" stroke="#1a1a2e" stroke-width="1.5" paint-order="stroke">?</text>
+        </g>
+
+        <!-- Falling leaves -->
+        <g class="ill-leaf1" transform="translate(55, 90)">
+          <text font-size="28">🍃</text>
+        </g>
+        <g class="ill-leaf2" transform="translate(260, 130)">
+          <text font-size="22">🌿</text>
+        </g>
+
+        <!-- Broken link icon -->
+        <g transform="translate(30, 55)">
+          <text font-size="26" opacity="0.45">🔗</text>
+          <line x1="0" y1="0" x2="28" y2="28" stroke="#1a1a2e" stroke-width="2.5" stroke-linecap="round" opacity="0.4"/>
+        </g>
+
+      </svg>
+    </div>
+
+    <h1 class="err-code">404</h1>
+    <p class="err-message">Page not found!</p>
+    <p class="err-sub">
+      Looks like this page got lost in the leaf pile. Or maybe a robot misrouted the packet. 
+      Either way, there's nothing here — even the WiFi is confused.
+    </p>
+    <a href="../index.html" class="btn-home">↩ take me home</a>
+  </div>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

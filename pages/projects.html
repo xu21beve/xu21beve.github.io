@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Beverly Xu — Projects</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <style>
+    body { background: var(--cream); }
+
+    #projects-page {
+      min-height: 100vh;
+      padding: 7rem var(--space-xl) var(--space-xl) 14rem;
+      position: relative;
+    }
+
+    /* Leaf orbit is absolutely positioned globally in main.js */
+    .leaf-orbit {
+      position: fixed;
+      pointer-events: none;
+      z-index: 3;
+      font-size: 1.8rem;
+      transform-origin: center;
+      transition: none;
+    }
+
+    .projects-header {
+      max-width: 700px;
+      margin-bottom: var(--space-xl);
+    }
+
+    .projects-desc {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--ink-soft);
+      max-width: 540px;
+      margin-top: var(--space-md);
+    }
+
+    /* Desktop-style OS window chrome */
+    .desktop-window {
+      border: var(--border-thick);
+      box-shadow: var(--shadow-xl);
+      background: var(--white);
+      max-width: 880px;
+    }
+
+    .window-titlebar {
+      background: var(--ink);
+      color: var(--white);
+      padding: var(--space-sm) var(--space-md);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      letter-spacing: 0.05em;
+    }
+    .window-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .wd-red    { background: #ff5f56; }
+    .wd-yellow { background: #ffbd2e; }
+    .wd-green  { background: var(--sage-dark); }
+
+    .window-body {
+      padding: var(--space-xl);
+      background: var(--off-white);
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: var(--space-xl) var(--space-lg);
+    }
+
+    .project-icon {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-sm);
+      cursor: none;
+      padding: var(--space-md);
+      border: 2px solid transparent;
+      transition: border-color 0.15s, background 0.15s;
+      user-select: none;
+    }
+    .project-icon:hover {
+      border-color: var(--lavender-deep);
+      background: rgba(200,200,233,0.25);
+    }
+    .project-icon:active .project-icon-img {
+      transform: scale(0.93);
+    }
+
+    .project-icon-img {
+      width: 72px;
+      height: 72px;
+      border: var(--border);
+      box-shadow: var(--shadow-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      transition: transform 0.15s var(--ease-spring), box-shadow 0.15s;
+      position: relative;
+    }
+    .project-icon:hover .project-icon-img {
+      transform: translateY(-4px) scale(1.08);
+      box-shadow: var(--shadow-lg);
+    }
+    .project-icon-img.lav  { background: var(--lavender); }
+    .project-icon-img.sage { background: var(--sage); }
+    .project-icon-img.crm  { background: var(--cream); }
+
+    .project-icon-label {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      text-align: center;
+      max-width: 110px;
+      line-height: 1.3;
+      color: var(--ink);
+    }
+
+    /* Page indicator */
+    .page-indicator {
+      display: flex;
+      gap: var(--space-sm);
+      margin-top: var(--space-xl);
+      align-items: center;
+    }
+    .pi-label {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--ink-soft);
+      margin-right: var(--space-sm);
+    }
+
+    /* Section filter chips */
+    .filter-chips {
+      display: flex;
+      gap: var(--space-sm);
+      flex-wrap: wrap;
+      margin-bottom: var(--space-lg);
+    }
+    .chip {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      padding: 3px 12px;
+      border: var(--border);
+      background: transparent;
+      cursor: none;
+      transition: background 0.15s, box-shadow 0.15s;
+      letter-spacing: 0.05em;
+    }
+    .chip.active { background: var(--ink); color: var(--white); }
+    .chip:not(.active):hover { background: var(--lavender); box-shadow: var(--shadow-sm); }
+  </style>
+</head>
+<body>
+
+  <!-- CURSOR -->
+  <div class="cursor cursor-ring"></div>
+  <div class="cursor cursor-dot"></div>
+
+  <!-- LOADER -->
+  <div id="loader">
+    <div class="loader-leaf">🍃</div>
+    <div class="loader-text">launching project manager ...</div>
+    <div class="loader-bar"></div>
+  </div>
+
+  <!-- WIFI TOAST -->
+  <div id="wifi-toast">
+    <div class="wifi-anim">📶</div>
+    <div class="wifi-text">
+      <strong>WiFi disconnected!</strong>
+      <span>check your connection :(</span>
+    </div>
+    <button id="wifi-dismiss" style="background:none;border:none;font-family:var(--font-mono);font-size:0.8rem;cursor:none;margin-left:auto;">✕</button>
+  </div>
+
+  <!-- ORBITING LEAF -->
+  <div class="leaf-orbit-wrap">
+    <div class="leaf-orbit">🍃</div>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav id="navbar">
+    <div class="nav-logo">bev xu</div>
+    <ul class="nav-links">
+      <li><a href="../index.html">home</a></li>
+      <li><a href="about.html">about</a></li>
+      <li><a href="projects.html" class="active">projects</a></li>
+      <li><a href="research.html">research</a></li>
+    </ul>
+    <div class="nav-ext">
+      <a href="https://linkedin.com/in/beverly-xu-645b71221" target="_blank">linkedin ↗</a>
+      <a href="../assets/resume.pdf" target="_blank">resume ↗</a>
+      <a href="https://github.com/xu21beve" target="_blank">github ↗</a>
+    </div>
+    <button class="dark-toggle" id="dark-toggle">◑ dark</button>
+  </nav>
+
+  <main id="projects-page">
+
+    <div class="projects-header">
+      <p class="section-label scroll-reveal">projects</p>
+      <h1 class="section-title scroll-reveal">
+        Things I've<br/><em style="font-family: var(--font-display); font-style: italic;">built.</em>
+      </h1>
+      <p class="projects-desc scroll-reveal">
+        Click any icon to expand. Double-clicking not required, but encouraged if it makes 
+        you feel more retro-desktop about it.
+      </p>
+    </div>
+
+    <!-- Filter chips -->
+    <div class="filter-chips scroll-reveal" id="filter-chips">
+      <button class="chip active" data-filter="all">all</button>
+      <button class="chip" data-filter="IOT">IOT</button>
+      <button class="chip" data-filter="PCB">PCB</button>
+      <button class="chip" data-filter="robotics">robotics</button>
+      <button class="chip" data-filter="mechanical">mechanical</button>
+      <button class="chip" data-filter="software">software</button>
+    </div>
+
+    <!-- Desktop window -->
+    <div class="desktop-window scroll-reveal">
+      <div class="window-titlebar">
+        <span class="window-dot wd-red"></span>
+        <span class="window-dot wd-yellow"></span>
+        <span class="window-dot wd-green"></span>
+        <span style="margin-left: var(--space-md);">bev_projects /</span>
+      </div>
+      <div class="window-body">
+        <div class="projects-grid" id="projects-grid">
+
+          <!-- Project icons — each has data-project JSON for the modal -->
+          <div class="project-icon" 
+               data-tags="PCB,electrical,robotics"
+               data-project='{"emoji":"🔊","title":"Hydrophone Amplifier","dates":"Sep 2025 – Present","tags":[{"label":"PCB","color":""},{"label":"KiCAD","color":"sage"},{"label":"LTSpice","color":"cream"},{"label":"robotics","color":""}],"desc":"Designed a three-stage 25–40 kHz hydrophone signal amplifier with 20,000–120,000× adjustable gain for the Harvey Mudd RoboSub AUV. Includes DC bias stages to preserve signal through single-rail op-amps and protect Teensy ADC input, plus a low-pass filter to reduce motor noise.\n\nDesigned schematic and layout in KiCAD; validated with LTSpice simulation before fabrication.","skills":["KiCAD","LTSpice","analog circuit design","PCB layout","signal amplification","op-amp design"]}'>
+            <div class="project-icon-img lav">🔊</div>
+            <span class="project-icon-label">Hydrophone<br/>Amplifier</span>
+          </div>
+
+          <div class="project-icon"
+               data-tags="PCB,electrical,robotics"
+               data-project='{"emoji":"🟩","title":"Signal Processing PCB (4-Layer)","dates":"Sep 2025 – Present","tags":[{"label":"PCB","color":""},{"label":"KiCAD","color":"sage"},{"label":"4-layer","color":"cream"},{"label":"robotics","color":""}],"desc":"Converted the RoboSub signal processing board from a 2-layer to a 4-layer PCB stackup in KiCAD. Added dedicated power and ground planes, expanded testing pad areas for easier debugging in-field, and created a full bill of materials for procurement.","skills":["KiCAD","4-layer PCB","BOM creation","design review","layout optimization"]}'>
+            <div class="project-icon-img sage">🟩</div>
+            <span class="project-icon-label">4-Layer Signal<br/>PCB</span>
+          </div>
+
+          <div class="project-icon"
+               data-tags="mechanical,robotics"
+               data-project='{"emoji":"🏹","title":"Torpedo Launcher","dates":"Sep 2025 – Present","tags":[{"label":"mechanical","color":""},{"label":"SolidWorks","color":"sage"},{"label":"FEA","color":"cream"},{"label":"robotics","color":""}],"desc":"Designed a torpedo launcher for the RoboSub AUV using SolidWorks FEA and flow simulation to model force distribution and fluid dynamics under operational loads. Prototyped on a 3D printer, then manufactured a 2-inch diameter launcher using Fusion CAM and a DPM SX3P Bed Mill.","skills":["SolidWorks FEA","flow simulation","Fusion CAM","manual milling","3D printing","tolerancing"]}'>
+            <div class="project-icon-img crm">🏹</div>
+            <span class="project-icon-label">Torpedo<br/>Launcher</span>
+          </div>
+
+          <div class="project-icon"
+               data-tags="IOT,electrical,mechanical"
+               data-project='{"emoji":"🕐","title":"Analog Alarm Clock","dates":"Apr 2026 – May 2026","tags":[{"label":"IOT","color":""},{"label":"Raspberry Pi","color":"sage"},{"label":"mechanical","color":"cream"},{"label":"WiFi/BT","color":""}],"desc":"Designed a single-motor-actuated analog clock with second, minute, and hour hands, plus WiFi and Bluetooth connectivity for custom alarm sounds.\n\nDesigned a custom gearbox in SolidWorks with 1:60:360 gear ratios and validated dynamics using motion study. Breadboarded with a Raspberry Pi Pico 2W, 5V DC buck converter, lightweight stepper motor, and toggle switches.","skills":["SolidWorks motion study","gear design","Raspberry Pi Pico","stepper motor control","WiFi/BT connectivity","breadboarding"]}'>
+            <div class="project-icon-img lav">🕐</div>
+            <span class="project-icon-label">Analog Alarm<br/>Clock</span>
+          </div>
+
+          <div class="project-icon"
+               data-tags="electrical,mechanical"
+               data-project='{"emoji":"💃","title":"Regenerative Dance Floor Tile","dates":"Jan 2025 – May 2025","tags":[{"label":"mechanical","color":""},{"label":"electrical","color":"sage"},{"label":"energy harvesting","color":"cream"}],"desc":"Spring-loaded floor tile that converts mechanical energy from footsteps into stored electrical energy. Collaborated with a team of 3 to develop a step mechanism converting bidirectional linear motion to rotational motion, rated for a max load of 150 lbs, to backdrive a motor and generate electricity.\n\nConverted AC output to DC using a diode bridge rectifier; troubleshot conversion efficiency and battery-charging circuit behavior.","skills":["energy harvesting","mechanical mechanism design","diode bridge rectifier","battery charging circuits","team collaboration","load analysis"]}'>
+            <div class="project-icon-img sage">💃</div>
+            <span class="project-icon-label">Regen Dance<br/>Floor Tile</span>
+          </div>
+
+          <div class="project-icon"
+               data-tags="IOT,software"
+               data-project='{"emoji":"🌬","title":"CO₂ Level Indicator","dates":"Sep 2025 – Present","tags":[{"label":"IOT","color":""},{"label":"Raspberry Pi","color":"sage"},{"label":"I2C","color":"cream"},{"label":"SolidWorks","color":""}],"desc":"Prototyped a CO₂ level indicator interfacing with an SCD41 sensor over I2C for the Lab for Investigations of Local Air Quality at Claremont. Designed an enclosure in SolidWorks using an edit-in-context assembly workflow.\n\nWrote Linux, BASH, and IGOR scripts to transfer data in real-time to Firebase from PurpleAir and meteorological sensors running on legacy middleware.","skills":["I2C protocol","SCD41 sensor","Raspberry Pi","SolidWorks","Firebase","BASH scripting","IGOR Pro","data pipeline"]}'>
+            <div class="project-icon-img crm">🌬️</div>
+            <span class="project-icon-label">CO₂ Level<br/>Indicator</span>
+          </div>
+
+          <div class="project-icon"
+               data-tags="robotics,software"
+               data-project='{"emoji":"🤖","title":"FRC Control Systems","dates":"Aug 2021 – Jun 2025","tags":[{"label":"software","color":""},{"label":"Java","color":"sage"},{"label":"control systems","color":"cream"},{"label":"robotics","color":""}],"desc":"Software Lead for the Mechanical Science and Engineering Robotics Team. Implemented robot control systems for the FIRST Robotics Competition across four seasons, reaching Worlds division finals and semifinals twice.\n\nBuilt feedforward, current-limiting, and PID control loops in Java using encoders, IR gates, and limit switches. Troubleshot CAN loop failures, actuator issues, PDP faults, and sensor firmware bugs under competition conditions.","skills":["Java","PID control","feedforward control","CAN bus","encoder integration","FRC framework","real-time debugging","limit switches","IR sensors"]}'>
+            <div class="project-icon-img lav">🤖</div>
+            <span class="project-icon-label">FRC Robot<br/>Control Systems</span>
+          </div>
+
+          <div class="project-icon"
+               data-tags="software,robotics"
+               data-project='{"emoji":"🧭","title":"Motion Planners (OMPL)","dates":"Aug 2023 – Aug 2025","tags":[{"label":"software","color":""},{"label":"C++","color":"sage"},{"label":"motion planning","color":"cream"},{"label":"research","color":""}],"desc":"Implemented cHyRRT and cHySST — two motion planners for hybrid dynamical systems — in the C++ Open Motion Planning Library (OMPL). Applied to systems including a collision-resilient quadcopter and a bouncing ball.\n\nWrote C++ validation tests, Python visualization scripts, and a full VM image. Results written up and presented at IEEE CASE 2025.","skills":["C++","OMPL","motion planning","hybrid dynamical systems","Python visualization","academic writing","IEEE conference presentation"]}'>
+            <div class="project-icon-img sage">🧭</div>
+            <span class="project-icon-label">OMPL Motion<br/>Planners</span>
+          </div>
+
+        </div>
+
+        <!-- Page indicator -->
+        <div class="page-indicator">
+          <span class="pi-label">page</span>
+          <div class="page-dot active" title="Page 1"></div>
+          <div class="page-dot" title="Page 2"></div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- PROJECT MODAL -->
+  <div class="project-modal-bg" id="project-modal-bg">
+    <div class="project-modal">
+      <button class="modal-close" id="modal-close">✕</button>
+      <div class="modal-inner">
+        <div class="modal-header">
+          <div class="modal-emoji" id="modal-emoji">📁</div>
+          <div>
+            <h2 class="modal-title" id="modal-title"></h2>
+            <p class="modal-dates" id="modal-dates"></p>
+          </div>
+        </div>
+        <div class="modal-tags" id="modal-tags"></div>
+        <p class="modal-desc" id="modal-desc" style="white-space: pre-line;"></p>
+        <div class="modal-skills" style="margin-top: var(--space-lg);">
+          <p class="modal-skills-title">Skills practiced</p>
+          <div class="modal-tags" id="modal-skills-list"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/main.js"></script>
+  <script>
+    // Filter chips logic
+    const chips = document.querySelectorAll('.chip');
+    const icons = document.querySelectorAll('.project-icon');
+
+    chips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        chips.forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        const filter = chip.dataset.filter;
+        icons.forEach(icon => {
+          const tags = icon.dataset.tags || '';
+          if (filter === 'all' || tags.includes(filter)) {
+            icon.style.display = '';
+          } else {
+            icon.style.display = 'none';
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
