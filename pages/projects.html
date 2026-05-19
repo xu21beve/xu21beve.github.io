@@ -178,7 +178,10 @@
 
   <!-- WIFI TOAST -->
   <div id="wifi-toast">
-    <div class="wifi-anim">📶</div>
+    <!-- <div class="wifi-anim">📶</div> -->
+    <div class="wifi-wiper">
+      <img src="../assets/wifi_wiper.gif" height=25px \>
+    </div>
     <div class="wifi-text">
       <strong>WiFi disconnected!</strong>
       <span>check your connection :(</span>
@@ -254,7 +257,7 @@
                data-tags="PCB,electrical,robotics"
                data-project='{"emoji":"🟩","title":"Signal Processing PCB (4-Layer)","dates":"Sep 2025 – Present","tags":[{"label":"PCB","color":""},{"label":"KiCAD","color":"sage"},{"label":"4-layer","color":"cream"},{"label":"robotics","color":""}],"desc":"Converted the RoboSub signal processing board from a 2-layer to a 4-layer PCB stackup in KiCAD. Added dedicated power and ground planes, expanded testing pad areas for easier debugging in-field, and created a full bill of materials for procurement.","skills":["KiCAD","4-layer PCB","BOM creation","design review","layout optimization"]}'>
             <div class="project-icon-img sage">🟩</div>
-            <span class="project-icon-label">4-Layer Signal<br/>PCB</span>
+            <span class="project-icon-label">Signal PCB</span>
           </div>
 
           <div class="project-icon"
@@ -336,6 +339,55 @@
 
   <script src="../js/main.js"></script>
   <script>
+    // PROJECT MODALS — page-specific setup
+    const modalBg    = document.getElementById('project-modal-bg');
+    const modalClose = document.getElementById('modal-close');
+    const projectIcons = document.querySelectorAll('.project-icon');
+
+    function openModal(data) {
+      document.getElementById('modal-emoji').textContent  = data.emoji || '📁';
+      document.getElementById('modal-title').textContent  = data.title || '';
+      document.getElementById('modal-dates').textContent  = data.dates || '';
+      document.getElementById('modal-desc').innerHTML     = data.desc  || '';
+
+      const tagsEl = document.getElementById('modal-tags');
+      tagsEl.innerHTML = '';
+      (data.tags || []).forEach(tag => {
+        const pill = document.createElement('span');
+        pill.className = 'tag-pill ' + (tag.color || '');
+        pill.textContent = tag.label;
+        tagsEl.appendChild(pill);
+      });
+
+      const skillsEl = document.getElementById('modal-skills-list');
+      skillsEl.innerHTML = '';
+      (data.skills || []).forEach(s => {
+        const p = document.createElement('span');
+        p.className = 'tag-pill cream';
+        p.textContent = s;
+        skillsEl.appendChild(p);
+      });
+
+      modalBg.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      modalBg.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    projectIcons.forEach((icon) => {
+      icon.addEventListener('click', () => {
+        const data = JSON.parse(icon.dataset.project || '{}');
+        openModal(data);
+      });
+    });
+
+    if (modalClose) modalClose.addEventListener('click', closeModal);
+    if (modalBg)    modalBg.addEventListener('click', e => { if (e.target === modalBg) closeModal(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
     // Filter chips logic
     const chips = document.querySelectorAll('.chip');
     const icons = document.querySelectorAll('.project-icon');

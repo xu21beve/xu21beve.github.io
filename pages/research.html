@@ -146,13 +146,16 @@
       color: var(--white);
     }
 
+    /* research.html <style> block — update these two rules */
     .research-body {
       max-height: 0;
       overflow: hidden;
       transition: max-height 0.5s var(--ease-smooth);
+      /* no padding here at all */
     }
     .research-item.expanded .research-body {
-      max-height: 1000px;
+      max-height: 1200px !important;
+      /* no padding here either */
     }
 
     .research-body-inner {
@@ -219,7 +222,10 @@
 
   <!-- WIFI TOAST -->
   <div id="wifi-toast">
-    <div class="wifi-anim">📶</div>
+    <!-- <div class="wifi-anim"> -->
+    <div class="wifi-wiper">
+      <img src="../assets/wifi_wiper.gif" height=25px \>
+    </div>
     <div class="wifi-text">
       <strong>WiFi disconnected!</strong>
       <span>check your connection :(</span>
@@ -247,12 +253,12 @@
   <main id="research-page">
     <p class="section-label scroll-reveal">research</p>
     <h1 class="section-title scroll-reveal">
-      The Lab<br/><em style="font-family: var(--font-display); font-style:italic; color: var(--sage-deep);">Notebooks.</em>
+      Research<br/><em style="font-family: var(--font-display); font-style:italic; color: var(--sage-deep);">and Publications.</em>
     </h1>
-    <p class="research-intro scroll-reveal">
+    <!-- <p class="research-intro scroll-reveal">
       Click any entry to expand the full details — problem statements, methodology, and where it was presented. 
       Research is messy and iterative; these are the highlights.
-    </p>
+    </p> -->
 
     <!-- PUBLICATION HIGHLIGHT -->
     <div class="publication-card scroll-reveal">
@@ -261,7 +267,7 @@
       <p class="pub-authors">
         <strong>Beverly Xu</strong> et al. — UC Santa Cruz Hybrid Systems Lab
       </p>
-      <a href="#" class="pub-link">view paper ↗</a>
+      <a href="https://ieeexplore.ieee.org/abstract/document/11164115" class="pub-link">view paper ↗</a>
     </div>
 
     <!-- RESEARCH ITEMS — click to expand -->
@@ -271,7 +277,7 @@
       <div class="research-header">
         <div>
           <h3 class="research-title">
-            Robotics Research Intern — RoboLand Lab, USC
+            Research Intern — RoboLand Lab, USC
             <span class="badge-upcoming">current</span>
           </h3>
           <p class="research-meta">USC · Sep 2025 – Present · Los Angeles, CA</p>
@@ -315,11 +321,13 @@
       </div>
     </div>
 
-    <!-- LIAQ — Air Quality -->
+    <!-- LILAQ — Air Quality -->
     <div class="research-item scroll-reveal">
       <div class="research-header">
         <div>
-          <h3 class="research-title">Intern — Lab for Investigations of Local Air Quality</h3>
+          <h3 class="research-title">Research Intern — Lab for Investigations of Local Air Quality
+            <span class="badge-upcoming">current</span>
+          </h3>
           <p class="research-meta">Claremont, CA · Sep 2025 – Present</p>
         </div>
         <button class="research-expand-btn">+</button>
@@ -377,7 +385,7 @@
     <div class="research-item scroll-reveal">
       <div class="research-header">
         <div>
-          <h3 class="research-title">Intern — Hybrid Systems Lab, UC Santa Cruz</h3>
+          <h3 class="research-title">Research Intern — Hybrid Systems Lab, UC Santa Cruz</h3>
           <p class="research-meta">Santa Cruz, CA · Aug 2023 – Aug 2025</p>
         </div>
         <button class="research-expand-btn">+</button>
@@ -443,10 +451,19 @@
 
   <script src="../js/main.js"></script>
   <script>
-    // Research accordion
-    document.querySelectorAll('.research-item').forEach(item => {
-      item.querySelector('.research-header').addEventListener('click', () => {
-        item.classList.toggle('expanded');
+    // Research accordion — expand/collapse on click
+    console.log('Research script loaded');
+    document.querySelectorAll('.research-header').forEach((header, i) => {
+      console.log(`Attaching listener to header ${i}`);
+      header.addEventListener('click', (e) => {
+        console.log('Header clicked', e);
+        e.stopPropagation();
+        const item = header.closest('.research-item');
+        console.log('Found item:', item);
+        if (item) {
+          item.classList.toggle('expanded');
+          console.log('Toggled expanded. Now has class?', item.classList.contains('expanded'));
+        }
       });
     });
   </script>

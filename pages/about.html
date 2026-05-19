@@ -82,6 +82,16 @@
       padding: var(--space-sm);
       transition: transform 0.2s var(--ease-spring);
     }
+    .mosaic-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
+      display: block;
+    }
+    .mosaic-photo img.right-align {
+      object-position: right center;
+    }
     .mosaic-photo:hover {
       transform: rotate(2deg) scale(1.04);
     }
@@ -97,7 +107,7 @@
       gap: var(--space-2xl);
       align-items: start;
       max-width: 1100px;
-      padding-top: var(--space-xl);
+      padding-top: var(--space-md);
     }
 
     @media (max-width: 900px) {
@@ -153,7 +163,10 @@
 
   <!-- WIFI TOAST -->
   <div id="wifi-toast">
-    <div class="wifi-anim">📶</div>
+    <!-- <div class="wifi-anim">📶</div> -->
+    <div class="wifi-wiper">
+      <img src="../assets/wifi_wiper.gif" height=25px \>
+    </div>
     <div class="wifi-text">
       <strong>WiFi disconnected!</strong>
       <span>check your connection :(</span>
@@ -194,10 +207,8 @@
           <div>
             <h3 class="bio-heading">The short version</h3>
             <p class="bio-text">
-              PLACEHOLDER — Write a punchy 2–3 sentence intro here. Who are you, what do you do, 
-              and what's your superpower? E.g. "I'm a junior at Harvey Mudd studying Engineering, 
-              with a love for circuits, robots, and anything that spins. I believe good engineering 
-              is half math and half knowing when to just try it."
+              I'm a sophomore at Harvey Mudd studying Engineering, with a love for robots, IOT devices, 
+              and the environment. I believe robotics innovation is key to accelerating the renewable energy transition.
             </p>
           </div>
         </div>
@@ -207,9 +218,15 @@
           <div>
             <h3 class="bio-heading">How I got here</h3>
             <p class="bio-text">
-              PLACEHOLDER — Your origin story. When did you first get interested in engineering? 
-              What sparked it? A broken toy? A FRC season? A YouTube rabbit hole about PCB design 
-              at 2am? Make it human and specific.
+              My experience designing <b>control systems</b> for my high school robotics team 
+              sparked my curiosity for how <b>robots navigate complex environments</b>. So
+              in my junior year of high school, I joined the <b>Hybrid Systems Lab</b> under professor Ricardo Sanfelice 
+              and Ph.D. candidate Nan Wang, implementing <b>motion planners</b> for systems with hybrid continuous (flowing)
+              and discrete dynamics (collisions). 
+              Then, in my senior year engineering class, I was struck by how seamlessly Japan’s 
+              <b>piezoelectric walking tiles</b> provided <b>renewable energy</b> in busy urban spaces. 
+              This innovation inspired me to build a clean‑energy system of my own: a regenerative 
+              dance floor that charged a battery as students jumped.
             </p>
           </div>
         </div>
@@ -221,9 +238,12 @@
             <p class="bio-text">
               I'm currently a robotics research intern with the 
               <strong>RoboLand Lab at USC</strong>, exploring how robots can interact with 
-              unstructured environments. I'm also on the Harvey Mudd RoboSub team, designing 
+              non-rigid, non-flat terrains. I'm also on the <b>Harvey Mudd RoboSub team</b>, designing 
               AUVs for underwater competition — which means I spend a lot of time thinking about 
-              waterproofing and hydrophone signal amplification.
+              torpedo launchers and hydrophone signal amplification. I am additionally a undergraduate
+              researcher at the <b>Lab for Investigations of Local Air Quality</b> at Mudd, where I've 
+              built a motorized, ambient CO2 level indicator, as well as a realtime Firestore data pipeline 
+              for various air quality sensors, many running legacy middleware.
             </p>
           </div>
         </div>
@@ -233,9 +253,12 @@
           <div>
             <h3 class="bio-heading">Outside the lab</h3>
             <p class="bio-text">
-              PLACEHOLDER — What do you do for fun? Hiking? Reading? Terrible puns? 
-              (You mentioned puns and nature — lean in here! E.g. "I make a lot of resistor-related 
-              puns. My friends have developed quite the tolerance.")
+              I create a lot — newspaper articles for the Muddraker (I love em-dashes), 
+              baked goods with odd flavor combinations, 
+              WiFi-enabled IOT devices to level up my room, 
+              extremely detailed spreadsheet schedules and Notion goal planners,
+              and occasionally funny puns (I make a lot of resistor-related 
+              puns. My friends have developed quite the tolerance.)
             </p>
           </div>
         </div>
@@ -253,7 +276,7 @@
             <tbody>
               <tr>
                 <td>Mechanical</td>
-                <td>SolidWorks, Fusion 360, Siemens NX, 3D printing, CAM, FEA</td>
+                <td>SolidWorks, Fusion 360, Onshape, 3D printing, FEA</td>
               </tr>
               <tr>
                 <td>Electrical</td>
@@ -261,18 +284,18 @@
               </tr>
               <tr>
                 <td>Software</td>
-                <td>C++, Python, MATLAB, Java, BASH, Linux, LaTeX, motion planning, control systems</td>
+                <td>C++, Python, MATLAB, Java, Linux, LaTeX, motion planning, control systems</td>
               </tr>
               <tr>
                 <td>Manufacturing</td>
-                <td>Bed mill (DPM SX3P), lathe, waterjet, FDM/SLA printing, CAM toolpathing</td>
+                <td>Bed mill (DPM SX3P), laser cutter, band saw, FDM printing, CAM toolpathing</td>
               </tr>
             </tbody>
           </table>
         </div>
 
         <!-- Fun facts -->
-        <div class="about-fun-facts scroll-reveal stagger" style="margin-top: var(--space-xl);">
+        <!-- <div class="about-fun-facts scroll-reveal stagger" style="margin-top: var(--space-xl);">
           <p class="section-label">fast facts</p>
           <div class="fun-fact" style="--i:0"><span class="fun-fact-icon">🎓</span> Harvey Mudd College, B.S. Engineering</div>
           <div class="fun-fact" style="--i:1"><span class="fun-fact-icon">📍</span> Claremont, CA (from Saratoga, CA)</div>
@@ -280,27 +303,31 @@
           <div class="fun-fact" style="--i:3"><span class="fun-fact-icon">📄</span> Published at IEEE CASE 2025</div>
           <div class="fun-fact" style="--i:4"><span class="fun-fact-icon">🌱</span> PLACEHOLDER — a fun personal fact</div>
           <div class="fun-fact" style="--i:5"><span class="fun-fact-icon">⚡</span> PLACEHOLDER — another fun fact</div>
-        </div>
+        </div> -->
       </div>
 
       <!-- Photo mosaic -->
-      <div style="position: sticky; top: 8rem;">
+      <div style="position: sticky; top: 4rem;">
         <div class="photo-mosaic scroll-reveal">
           <!-- Replace these divs with <img> tags pointing to your actual photos -->
           <div class="mosaic-photo tall">
-            PLACEHOLDER<br/>photo 1<br/><small>(replace with img)</small>
+            <img
+              class="right-align"
+              src="../assets/733F5310-E5AE-4AA2-8A8F-0CEF80079A4F.jpeg"
+              alt="FRC Robotics Competition Worlds Finalist"
+            />          
           </div>
           <div class="mosaic-photo">
-            PLACEHOLDER<br/>photo 2
+            <img src="../assets/_DSC0411.jpeg" alt="Lab for Investigations of Local Air Quality" />
           </div>
           <div class="mosaic-photo">
-            PLACEHOLDER<br/>photo 3
+            <img src="../assets/IMG_6090.JPG" alt="Harvey Mudd Summer Research Poster Session" />
           </div>
           <div class="mosaic-photo">
-            PLACEHOLDER<br/>photo 4
+            <img src="../assets/IMG_6091.JPG" alt="Snowboarding" />
           </div>
           <div class="mosaic-photo">
-            PLACEHOLDER<br/>photo 5
+            <img src="../assets/IMG_6092.JPG" alt="Hybrid Systems Lab Annual Presentation" />
           </div>
         </div>
         <p style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--ink-soft); margin-top: var(--space-md); line-height: 1.5;">

@@ -49,6 +49,7 @@
   /* Border */
   --border: 2px solid var(--ink);
   --border-thick: 3px solid var(--ink);
+  --sidebar-width: 240px;
 }
 
 /* ---- DARK MODE ---- */
@@ -87,6 +88,7 @@ body {
   cursor: none;
   overflow-x: hidden;
   transition: background 0.4s var(--ease-smooth), color 0.4s var(--ease-smooth);
+  padding-left: var(--sidebar-width);
 }
 
 /* ---- CUSTOM CURSOR ---- */
@@ -123,8 +125,10 @@ body.cursor-hover .cursor-dot {
 /* ============ NAVIGATION ============ */
 #navbar {
   position: fixed;
-  top: var(--space-lg);
-  left: var(--space-lg);
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: var(--sidebar-width);
   z-index: 1000;
   display: flex;
   flex-direction: column;
@@ -132,13 +136,13 @@ body.cursor-hover .cursor-dot {
   background: var(--white);
   border: var(--border-thick);
   box-shadow: var(--shadow-md);
-  padding: var(--space-md) var(--space-lg);
+  padding: calc(var(--space-xl)) var(--space-md);
   border-radius: 0;
-  transition: top 0.4s var(--ease-smooth), opacity 0.4s;
+  overflow-y: auto;
 }
 
 #navbar.scrolled {
-  top: var(--space-md);
+  /* no-op for sidebar layout */
 }
 
 .nav-logo {
@@ -222,6 +226,19 @@ body.cursor-hover .cursor-dot {
   color: var(--ink);
   background: var(--cream);
   transition: background 0.2s, box-shadow 0.2s;
+}
+
+/* Responsive: revert to top-left floating nav on small screens */
+@media (max-width: 900px) {
+  body { padding-left: 0; }
+  #navbar {
+    left: var(--space-lg);
+    top: var(--space-lg);
+    bottom: auto;
+    width: auto;
+    padding: var(--space-md) var(--space-lg);
+    border-radius: 0;
+  }
 }
 .dark-toggle:hover {
   background: var(--lavender);
@@ -361,12 +378,25 @@ section {
 /* Hero image + floating icons */
 .hero-right {
   position: absolute;
-  right: var(--space-xl);
+  right: calc(2*var(--space-xl));
   top: 50%;
   transform: translateY(-50%);
   width: 340px;
   opacity: 0;
-  animation: fadeIn 1s var(--ease-out) 1s forwards;
+  animation: fadeIn 0.5s var(--ease-out) 0.5s forwards;
+  z-index: 2;
+}
+
+/* Hero image + floating icons */
+.hero-left {
+  position: absolute;
+  left: var(--space-xl);
+  top: 50%;
+  transform: translateY(-50%);
+  width: 340px;
+  opacity: 0;
+  animation: fadeIn 0.5s var(--ease-out) 0.5s forwards;
+  z-index: 2;
 }
 
 .hero-portrait {
@@ -375,12 +405,14 @@ section {
   border: var(--border-thick);
   box-shadow: var(--shadow-xl);
   background: var(--lavender);
-  overflow: hidden;
+  overflow: visible;
   position: relative;
   margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 42% 58% 54% 46% / 48% 42% 58% 52%;
+  /* padding-right: var(--space-xl); */
 }
 
 .portrait {
@@ -389,7 +421,9 @@ section {
   color: var(--lavender-deep);
   text-align: center;
   padding: var(--space-md);
-  opacity: 0.6;
+  opacity: 0.9;
+  width: 100%;
+  height: 100%;
 }
 
 .portrait img {
@@ -411,6 +445,7 @@ section {
   justify-content: center;
   font-size: 1.3rem;
   animation: floatBob var(--dur, 3s) var(--delay, 0s) ease-in-out infinite alternate;
+  z-index: 3;
 }
 @keyframes floatBob {
   from { transform: translateY(0) rotate(0deg); }
@@ -1007,7 +1042,8 @@ section {
     padding: var(--space-sm) var(--space-md);
     gap: var(--space-md);
   }
-  .nav-links { flex-direction: row; }
+  /* Keep links vertical on tablet sizes so they don't form a horizontal line */
+  .nav-links { flex-direction: column; }
   .hero-right { display: none; }
   .about-grid { grid-template-columns: 1fr; }
 }
