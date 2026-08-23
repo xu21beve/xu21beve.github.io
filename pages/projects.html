@@ -196,7 +196,7 @@
 
   <!-- NAVBAR -->
   <nav id="navbar">
-    <div class="nav-logo">bev xu</div>
+    <div class="nav-logo">beverly xu</div>
     <ul class="nav-links">
       <li><a href="../index.html">home</a></li>
       <li><a href="about.html">about</a></li>
@@ -218,10 +218,10 @@
       <h1 class="section-title scroll-reveal">
         Things I've<br/><em style="font-family: var(--font-display); font-style: italic;">built.</em>
       </h1>
-      <p class="projects-desc scroll-reveal">
+      <!-- <p class="projects-desc scroll-reveal">
         Click any icon to expand. Double-clicking not required, but encouraged if it makes 
         you feel more retro-desktop about it.
-      </p>
+      </p> -->
     </div>
 
     <!-- Filter chips -->
@@ -246,18 +246,18 @@
         <div class="projects-grid" id="projects-grid">
 
           <!-- Project icons — each has data-project JSON for the modal -->
+           <div class="project-icon"
+               data-tags="IOT,PCB,electrical"
+               data-project='{"emoji":"🎼","title":"Mini Record Player","dates":" July 2026– Present","tags":[{"label":"IOT","color":""},{"label":"PCB","color":""},{"label":"KiCAD","color":"sage"}],"desc":"Designed and bench-tested controls/power board for record sensing, audio, lighting, battery charging, and motor control. Includes ultrasonic distance sensor for record ID, music-synced LEDs, external flash, and speaker-amp, battery, and motor subcircuits. Used KiCAD for schematic capture and PCB layout. Soldered SMD components onto bare board using stencil and reflow. Designed and laser cut enclosure.","skills":["KiCAD","PCB layout","mixed-signal design","power electronics","BOM creation"]}'>
+            <div class="project-icon-img sage">🎼</div>
+            <span class="project-icon-label">Mini Record Player</span>
+          </div>
+
           <div class="project-icon" 
                data-tags="PCB,electrical,robotics"
                data-project='{"emoji":"🔊","title":"Hydrophone Amplifier","dates":"Sep 2025 – Present","tags":[{"label":"PCB","color":""},{"label":"KiCAD","color":"sage"},{"label":"LTSpice","color":"cream"},{"label":"robotics","color":""}],"desc":"Designed a three-stage 25–40 kHz hydrophone signal amplifier with 20,000–120,000× adjustable gain for the Harvey Mudd RoboSub AUV. Includes DC bias stages to preserve signal through single-rail op-amps and protect Teensy ADC input, plus a low-pass filter to reduce motor noise.\n\nDesigned schematic and layout in KiCAD; validated with LTSpice simulation before fabrication.","skills":["KiCAD","LTSpice","analog circuit design","PCB layout","signal amplification","op-amp design"]}'>
             <div class="project-icon-img lav">🔊</div>
             <span class="project-icon-label">Hydrophone<br/>Amplifier</span>
-          </div>
-
-          <div class="project-icon"
-               data-tags="PCB,electrical,robotics"
-               data-project='{"emoji":"🟩","title":"Signal Processing PCB (4-Layer)","dates":"Sep 2025 – Present","tags":[{"label":"PCB","color":""},{"label":"KiCAD","color":"sage"},{"label":"4-layer","color":"cream"},{"label":"robotics","color":""}],"desc":"Converted the RoboSub signal processing board from a 2-layer to a 4-layer PCB stackup in KiCAD. Added dedicated power and ground planes, expanded testing pad areas for easier debugging in-field, and created a full bill of materials for procurement.","skills":["KiCAD","4-layer PCB","BOM creation","design review","layout optimization"]}'>
-            <div class="project-icon-img sage">🟩</div>
-            <span class="project-icon-label">Signal PCB</span>
           </div>
 
           <div class="project-icon"
@@ -276,13 +276,13 @@
 
           <div class="project-icon"
                data-tags="electrical,mechanical"
-               data-project='{"emoji":"💃","title":"Regenerative Dance Floor Tile","dates":"Jan 2025 – May 2025","tags":[{"label":"mechanical","color":""},{"label":"electrical","color":"sage"},{"label":"energy harvesting","color":"cream"}],"desc":"Spring-loaded floor tile that converts mechanical energy from footsteps into stored electrical energy. Collaborated with a team of 3 to develop a step mechanism converting bidirectional linear motion to rotational motion, rated for a max load of 150 lbs, to backdrive a motor and generate electricity.\n\nConverted AC output to DC using a diode bridge rectifier; troubleshot conversion efficiency and battery-charging circuit behavior.","skills":["energy harvesting","mechanical mechanism design","diode bridge rectifier","battery charging circuits","team collaboration","load analysis"]}'>
+               data-project='{"emoji":"💃","title":"Regenerative Dance Floor Tile","dates":"Jan 2025 – May 2025","tags":[{"label":"mechanical","color":""},{"label":"electrical","color":"sage"}],"desc":"Spring-loaded floor tile that converts mechanical energy from footsteps into stored electrical energy. Collaborated with a team of 3 to develop a step mechanism converting bidirectional linear motion to rotational motion, rated for a max load of 150 lbs, to backdrive a motor and generate electricity.\n\nConverted AC output to DC using a diode bridge rectifier; troubleshot conversion efficiency and battery-charging circuit behavior.","skills":["battery charging circuits","team collaboration","load analysis"]}'>
             <div class="project-icon-img sage">💃</div>
             <span class="project-icon-label">Regen Dance<br/>Floor Tile</span>
           </div>
 
           <div class="project-icon"
-               data-tags="IOT,software"
+               data-tags="IOT,mechanical"
                data-project='{"emoji":"🌬","title":"CO₂ Level Indicator","dates":"Sep 2025 – Present","tags":[{"label":"IOT","color":""},{"label":"Raspberry Pi","color":"sage"},{"label":"I2C","color":"cream"},{"label":"SolidWorks","color":""}],"desc":"Prototyped a CO₂ level indicator interfacing with an SCD41 sensor over I2C for the Lab for Investigations of Local Air Quality at Claremont. Designed an enclosure in SolidWorks using an edit-in-context assembly workflow.\n\nWrote Linux, BASH, and IGOR scripts to transfer data in real-time to Firebase from PurpleAir and meteorological sensors running on legacy middleware.","skills":["I2C protocol","SCD41 sensor","Raspberry Pi","SolidWorks","Firebase","BASH scripting","IGOR Pro","data pipeline"]}'>
             <div class="project-icon-img crm">🌬️</div>
             <span class="project-icon-label">CO₂ Level<br/>Indicator</span>

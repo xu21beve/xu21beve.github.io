@@ -51,9 +51,12 @@ document.addEventListener('DOMContentLoaded', () => {
   if (darkToggle) {
     const saved = localStorage.getItem('bev-dark');
     if (saved === 'true') document.body.classList.add('dark');
+    // Initialize button text to reflect current mode (keep sun/moon icons)
+    darkToggle.textContent = document.body.classList.contains('dark') ? '☀ light' : '◑ dark';
     darkToggle.addEventListener('click', () => {
       document.body.classList.toggle('dark');
       localStorage.setItem('bev-dark', document.body.classList.contains('dark'));
+      // Update label: show "☀ light" when in dark mode, "◑ dark" when in light mode
       darkToggle.textContent = document.body.classList.contains('dark') ? '☀ light' : '◑ dark';
     });
   }
@@ -192,9 +195,10 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('offline', showWifiToast);
 
   // Also demo after 8s if on main page (just to show it works)
-  if (document.body.dataset.page === 'home') {
-    setTimeout(showWifiToast, 8000);
-  }
+  // Demo removed: don't auto-show the wifi toast after 8s on the homepage
+  // if (document.body.dataset.page === 'home') {
+  //   setTimeout(showWifiToast, 8000);
+  // }
 
   const wifiDismiss = document.getElementById('wifi-dismiss');
   if (wifiDismiss) wifiDismiss.addEventListener('click', () => wifiToast.classList.remove('show'));

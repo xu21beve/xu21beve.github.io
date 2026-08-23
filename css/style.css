@@ -21,10 +21,12 @@
   --ink-soft:       #2e2e4e;
   --white:          #fafaf6;
   --off-white:      #f4f4ec;
+  --true-white:     #ffffff;
 
   /* Typography */
   --font-display:  'DM Serif Display', Georgia, serif;
-  --font-ui:       'Syne', sans-serif;
+  /* --font-ui:       'Syne', sans-serif; */
+  --font-ui:        'dolly-new', sans-serif;
   --font-mono:     'IBM Plex Mono', monospace;
 
   /* Spacing scale */
@@ -166,7 +168,7 @@ body.cursor-hover .cursor-dot {
   font-family: var(--font-mono);
   font-size: 0.8rem;
   font-weight: 500;
-  color: var(--ink);
+  color: var(--sage-deep);
   text-decoration: none;
   letter-spacing: 0.05em;
   display: flex;
@@ -195,6 +197,10 @@ body.cursor-hover .cursor-dot {
   font-weight: 600;
 }
 
+/* Make internal nav links match external link behavior */
+.nav-links a:hover { color: var(--lavender-deep); }
+.nav-links a:active { color: var(--lavender-dark); }
+
 /* Ext links row */
 .nav-ext {
   display: flex;
@@ -212,6 +218,20 @@ body.cursor-hover .cursor-dot {
   transition: color 0.2s;
 }
 .nav-ext a:hover { color: var(--sage-deep); }
+
+/* Make external links match internal nav link colors */
+/* Targets external anchors (blank-target, rel="external", or absolute http(s) links) */
+a[target="_blank"], a[rel~="external"], a[href^="http"] {
+  color: var(--sage-deep);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+a[target="_blank"]:hover, a[rel~="external"]:hover, a[href^="http"]:hover {
+  color: var(--lavender-deep);
+}
+a[target="_blank"]:active, a[rel~="external"]:active, a[href^="http"]:active {
+  color: var(--lavender-dark);
+}
 
 /* Dark mode toggle */
 .dark-toggle {
@@ -967,7 +987,7 @@ section {
   bottom: var(--space-lg);
   right: var(--space-lg);
   z-index: 5000;
-  background: var(--white);
+  background: var(--true-white);
   border: var(--border-thick);
   box-shadow: var(--shadow-lg);
   padding: var(--space-md) var(--space-lg);

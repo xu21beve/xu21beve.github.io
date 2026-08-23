@@ -235,7 +235,7 @@
 
   <!-- NAVBAR -->
   <nav id="navbar">
-    <div class="nav-logo">bev xu</div>
+    <div class="nav-logo">beverly xu</div>
     <ul class="nav-links">
       <li><a href="../index.html">home</a></li>
       <li><a href="about.html">about</a></li>
@@ -271,16 +271,13 @@
     </div>
 
     <!-- RESEARCH ITEMS — click to expand -->
-
     <!-- RoboLand / USC -->
+    <!-- NSF-funded RoboLand (newest) -->
     <div class="research-item scroll-reveal">
       <div class="research-header">
         <div>
-          <h3 class="research-title">
-            Research Intern — RoboLand Lab, USC
-            <span class="badge-upcoming">current</span>
-          </h3>
-          <p class="research-meta">USC · Sep 2025 – Present · Los Angeles, CA</p>
+          <h3 class="research-title">NSF-funded Researcher — RoboLand Lab, USC</h3>
+          <p class="research-meta">Los Angeles, CA · May 2026 – Aug 2026</p>
         </div>
         <button class="research-expand-btn">+</button>
       </div>
@@ -289,32 +286,52 @@
           <div>
             <div class="research-subsection">
               <p class="research-sub-label">Problem Statement</p>
-              <p class="research-sub-content">PLACEHOLDER — Describe the research question or problem this lab is tackling. What challenge in robotics motivated this work?</p>
+              <p class="research-sub-content">Locomotion on deformable terrain, where 
+                                              robot–terrain motion coupling occurs, remains 
+                                              a gap in existing literature. Discrete probe-then-decide traversability 
+                                              strategies and deployment of legged robots 
+                                              in obstacle-dense environments like 
+                                              substations and construction sites,
+                                              raise a further question: Can a robot 
+                                              successfully exploit a yielding obstacle field?
             </div>
             <div class="research-subsection">
-              <p class="research-sub-label">Proposed Solution / Methodology</p>
-              <p class="research-sub-content">PLACEHOLDER — What approach is the lab taking? What methods, algorithms, or systems are you working with?</p>
-            </div>
+              <p class="research-sub-label">Methodology</p>
+              <p class="research-sub-content">At small-to-moderate deformation, yielding terrain behaves approximately like a spring. 
+                This motivates a spring loaded obstacle model. We designed and prototyped a novel locomotion test bed with spring-loaded
+                 obstacles mounted on a custom sliding mechanism to enable repeatable trials. Trials over variable obstacle spacings and stiffnesses with
+                 a caterpillar-inspired robot yielded observed trends in obstacle stiffness/spacing and traversal robustness.</p>
+
+              </div>
           </div>
           <div>
-            <div class="research-subsection">
+            <!-- <div class="research-subsection">
               <p class="research-sub-label">Date Range</p>
-              <p class="research-sub-content">September 2025 – Present</p>
-            </div>
+              <p class="research-sub-content">May 2026 – August 2026</p>
+            </div> -->
             <div class="research-subsection">
-              <p class="research-sub-label">Institution / Lab / Professor</p>
-              <p class="research-sub-content">RoboLand Lab, University of Southern California<br/>PLACEHOLDER — Prof. [Name]</p>
+              <p class="research-sub-label">Institution / Lab</p>
+              <p class="research-sub-content">RoboLand Lab, USC
+                                              <br> Dr. Feifei Qian
+              </p>
             </div>
             <div class="research-subsection">
               <p class="research-sub-label">Skills Practiced</p>
               <div class="research-tags">
-                <span class="tag-pill sage">PLACEHOLDER</span>
-                <span class="tag-pill">PLACEHOLDER</span>
+                <span class="tag-pill">mechanical design</span>
+                <span class="tag-pill sage">prototyping</span>
+                <span class="tag-pill cream">experimental design</span>
               </div>
             </div>
             <div class="research-subsection">
               <p class="research-sub-label">Presented At</p>
-              <p class="research-sub-content">PLACEHOLDER — conference, lab meeting, poster session, etc.</p>
+              <p class="research-sub-content"><a href="https://sites.google.com/usc.edu/socalreupostersymposium2026" target="_blank">2026 SoCal REU Poster Symposium ↗</a></p>
+            </div>
+            <div class="research-subsection">
+              <p class="research-sub-label">Materials</p>
+              <p class="research-sub-content">
+                <a href="../assets/roboland.pdf" class="pub-link" target="_blank">roboland poster (PDF) ↗</a>
+              </p>
             </div>
           </div>
         </div>
@@ -325,7 +342,7 @@
     <div class="research-item scroll-reveal">
       <div class="research-header">
         <div>
-          <h3 class="research-title">Research Intern — Lab for Investigations of Local Air Quality
+          <h3 class="research-title">Research Intern — LILAQ Lab, Harvey Mudd
             <span class="badge-upcoming">current</span>
           </h3>
           <p class="research-meta">Claremont, CA · Sep 2025 – Present</p>
@@ -338,33 +355,44 @@
             <div class="research-subsection">
               <p class="research-sub-label">Problem Statement</p>
               <p class="research-sub-content">
-                Monitoring hyperlocal air quality is difficult with legacy sensor middleware and fragmented data pipelines. 
-                The lab needs reliable, real-time CO₂ and meteorological data collection infrastructure.
+                <b>Project 1:</b>
+                Communicating realtime, hyperlocal air quality is difficult with legacy sensor middleware and fragmented data pipelines. 
+                To inform the local community of air quality information distilled from an array of research-grade sensors,
+                the Lab for Investigations of Local Air Quality (LILAQ) needs reliable, real-time meteorological data collection infrastructure.
+                <br>
+                <b>Project 2:</b>
+                Additionally, indoor CO₂ levels impact occupant focus, alertness, and long-term health. However, popular commercial CO₂ indicators
+                can cost upwards of $200. 
               </p>
             </div>
             <div class="research-subsection">
               <p class="research-sub-label">Methodology</p>
               <p class="research-sub-content">
-                Prototyped a CO₂ indicator with I2C interface to SCD41 sensor. Wrote BASH and IGOR scripts 
+                <b>Project 1:</b>
+                Wrote BASH and IGOR scripts 
                 for Raspberry Pi and Windows devices to stream data to Firebase from PurpleAir and 
-                meteorological sensors on legacy middleware. Designed sensor enclosure in SolidWorks 
+                meteorological sensors on legacy middleware. 
+                <br>
+                <b>Project 2:</b>
+                Prototyped a CO₂ indicator with I2C interface to SCD41 sensor. Designed sensor enclosure in SolidWorks 
                 using edit-in-context assembly workflow.
               </p>
             </div>
           </div>
           <div>
-            <div class="research-subsection">
+            <!-- <div class="research-subsection">
               <p class="research-sub-label">Date Range</p>
               <p class="research-sub-content">September 2025 – Present</p>
-            </div>
+            </div> -->
             <div class="research-subsection">
               <p class="research-sub-label">Institution</p>
-              <p class="research-sub-content">LIAQ, Claremont, CA</p>
+              <p class="research-sub-content">Lab for Investigations of Local Air Quality, Harvey Mudd
+                                              <br> Dr. Julie Medero and Dr. Lelia Hawkins
+              </p>
             </div>
             <div class="research-subsection">
               <p class="research-sub-label">Skills Practiced</p>
               <div class="research-tags">
-                <span class="tag-pill">I2C / SCD41</span>
                 <span class="tag-pill sage">Raspberry Pi</span>
                 <span class="tag-pill cream">Firebase</span>
                 <span class="tag-pill">BASH</span>
@@ -372,16 +400,13 @@
                 <span class="tag-pill cream">SolidWorks</span>
               </div>
             </div>
-            <div class="research-subsection">
-              <p class="research-sub-label">Presented At</p>
-              <p class="research-sub-content">PLACEHOLDER</p>
-            </div>
           </div>
         </div>
       </div>
     </div>
+        
 
-    <!-- UC Santa Cruz Hybrid Systems Lab -->
+            <!-- UC Santa Cruz Hybrid Systems Lab -->
     <div class="research-item scroll-reveal">
       <div class="research-header">
         <div>
@@ -399,29 +424,29 @@
                 Standard motion planners are designed for smooth continuous systems and fail on 
                 hybrid dynamical systems — those with both continuous flow and discrete jumps 
                 (e.g. a quadcopter bouncing off walls, a ball bouncing on a floor). 
-                No tools existed in OMPL for this class of systems.
+                No tools existed in the Open Motion Planning Library (OMPL) for this class of systems.
               </p>
             </div>
             <div class="research-subsection">
-              <p class="research-sub-label">Proposed Solution</p>
+              <p class="research-sub-label">Methodology</p>
               <p class="research-sub-content">
                 Implemented cHyRRT and cHySST — two novel motion planners based on 
                 RRT and SST respectively — extended to handle hybrid dynamical systems 
-                with resets. Validated on a collision-resilient quadcopter and bouncing ball model. 
-                Results published at IEEE CASE 2025.
+                with resets. Validated on collision-resilient quadcopter, bouncing ball, and pinball machine models. 
+                Results published and presented at IEEE CASE 2025. Both planners were accepted into OMPL.
               </p>
             </div>
           </div>
           <div>
-            <div class="research-subsection">
+            <!-- <div class="research-subsection">
               <p class="research-sub-label">Date Range</p>
               <p class="research-sub-content">August 2023 – August 2025</p>
-            </div>
+            </div> -->
             <div class="research-subsection">
               <p class="research-sub-label">Institution / Lab</p>
               <p class="research-sub-content">
-                UC Santa Cruz Hybrid Systems Lab<br/>
-                PLACEHOLDER — Prof. [Name]
+                Hybrid Systems Lab, UC Santa Cruz<br/>
+                Dr. Ricardo Sanfelice
               </p>
             </div>
             <div class="research-subsection">
@@ -430,16 +455,21 @@
                 <span class="tag-pill">C++</span>
                 <span class="tag-pill sage">OMPL</span>
                 <span class="tag-pill cream">motion planning</span>
-                <span class="tag-pill">hybrid systems</span>
-                <span class="tag-pill sage">Python (viz)</span>
                 <span class="tag-pill cream">academic writing</span>
-                <span class="tag-pill">IEEE presentation</span>
+                <span class="tag-pill">academic presentation</span>
               </div>
             </div>
             <div class="research-subsection">
               <p class="research-sub-label">Presented At</p>
               <p class="research-sub-content">
-                IEEE CASE 2025 — August 2025
+                IEEE CASE 2025
+              </p>
+            </div>
+            
+            <div class="research-subsection">
+              <p class="research-sub-label">Materials</p>
+              <p class="research-sub-content">
+                <a href="https://github.com/ompl/ompl/tree/main/src/ompl/control/planners" class="pub-link" target="_blank">OMPL planners source code (GitHub) ↗</a>
               </p>
             </div>
           </div>
@@ -450,7 +480,7 @@
   </main>
 
   <script src="../js/main.js"></script>
-  <script>
+  <!-- <script>
     // Research accordion — expand/collapse on click
     console.log('Research script loaded');
     document.querySelectorAll('.research-header').forEach((header, i) => {
@@ -466,6 +496,6 @@
         }
       });
     });
-  </script>
+  </script> -->
 </body>
 </html>
