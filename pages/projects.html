@@ -161,6 +161,59 @@
     }
     .chip.active { background: var(--ink); color: var(--white); }
     .chip:not(.active):hover { background: var(--lavender); box-shadow: var(--shadow-sm); }
+    /* Modal gallery */
+    .modal-gallery {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+      align-items: center;
+      margin-top: var(--space-md);
+    }
+    .modal-gallery .gallery-frame {
+      position: relative;
+      width: 100%;
+      max-width: 560px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+    .modal-gallery img#modal-main-img {
+      width: 100%;
+      height: auto;
+      border-radius: 6px;
+      box-shadow: var(--shadow-md);
+      max-height: 360px;
+      object-fit: contain;
+      background: var(--off-white);
+    }
+    .gallery-prev, .gallery-next {
+      background: rgba(0,0,0,0.06);
+      border: none;
+      width: 36px;
+      height: 36px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1.4rem;
+    }
+    .gallery-thumbs {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-top: 6px;
+      width: 100%;
+      justify-content: center;
+    }
+    .gallery-thumbs img {
+      width: 72px;
+      height: 54px;
+      object-fit: cover;
+      border-radius: 4px;
+      cursor: pointer;
+      opacity: 0.85;
+      border: 2px solid transparent;
+    }
+    .gallery-thumbs img.active-thumb { border-color: var(--ink); opacity: 1; }
   </style>
 </head>
 <body>
@@ -246,58 +299,47 @@
         <div class="projects-grid" id="projects-grid">
 
           <!-- Project icons — each has data-project JSON for the modal -->
-           <div class="project-icon"
-               data-tags="IOT,PCB,electrical"
-               data-project='{"emoji":"🎼","title":"Mini Record Player","dates":" July 2026– Present","tags":[{"label":"IOT","color":""},{"label":"PCB","color":""},{"label":"KiCAD","color":"sage"}],"desc":"Designed and bench-tested controls/power board for record sensing, audio, lighting, battery charging, and motor control. Includes ultrasonic distance sensor for record ID, music-synced LEDs, external flash, and speaker-amp, battery, and motor subcircuits. Used KiCAD for schematic capture and PCB layout. Soldered SMD components onto bare board using stencil and reflow. Designed and laser cut enclosure.","skills":["KiCAD","PCB layout","mixed-signal design","power electronics","BOM creation"]}'>
+             <div class="project-icon" data-tags="IOT,PCB,electrical" data-project='{"emoji":"🎼","title":"Mini Record Player","dates":" July 2026– Present","tags":[{"label":"IOT","color":""},{"label":"PCB","color":""},{"label":"KiCAD","color":"sage"}],"desc":"To reproduce the tactile experience of playing music with a record player at a lower cost, I designed and bench-tested controls/power board for record sensing, audio, lighting, battery charging, and motor control. The player includes an ultrasonic distance sensor to identify numerous records by their 3D-printed, back-facing extrusions. The player additionally includes external flash for MP3 storage, music-synced LEDs, and speaker-amp, battery, and motor subcircuits. I used KiCAD for schematic capture and PCB layout. I am planning to solder the SMD components onto bare board using stencil and reflow, to keep the cost of producing a single board low. I am also designing and laser cutting the enclosure.","skills":["KiCAD","PCB layout","mixed-signal design","power electronics","BOM creation"],"images":["../assets/record_player/schematic.png","../assets/record_player/battery_subsheet.png"]}'>
             <div class="project-icon-img sage">🎼</div>
             <span class="project-icon-label">Mini Record Player</span>
           </div>
 
-          <div class="project-icon" 
-               data-tags="PCB,electrical,robotics"
-               data-project='{"emoji":"🔊","title":"Hydrophone Amplifier","dates":"Sep 2025 – Present","tags":[{"label":"PCB","color":""},{"label":"KiCAD","color":"sage"},{"label":"LTSpice","color":"cream"},{"label":"robotics","color":""}],"desc":"Designed a three-stage 25–40 kHz hydrophone signal amplifier with 20,000–120,000× adjustable gain for the Harvey Mudd RoboSub AUV. Includes DC bias stages to preserve signal through single-rail op-amps and protect Teensy ADC input, plus a low-pass filter to reduce motor noise.\n\nDesigned schematic and layout in KiCAD; validated with LTSpice simulation before fabrication.","skills":["KiCAD","LTSpice","analog circuit design","PCB layout","signal amplification","op-amp design"]}'>
+          <div class="project-icon" data-tags="PCB,electrical,robotics" data-project='{"emoji":"🔊","title":"Hydrophone Amplifier","dates":"Sep 2025 – Present","tags":[{"label":"PCB","color":""},{"label":"KiCAD","color":"sage"},{"label":"LTSpice","color":"cream"},{"label":"robotics","color":""}],"desc":"To amplify μV-scale hydrophone signals from a target, 25-40 kHz frequency range, I designed a three-stage signal amplifier with 20,000–120,000× adjustable gain for the Harvey Mudd RoboSub AUV. The circuit includes DC bias stages to preserve signal through single-rail op-amps and protect Teensy ADC input, plus a low-pass filter to reduce motor noise.\n\nI designed the schematic and layout in KiCAD; validated with LTSpice simulation before fabrication.","skills":["KiCAD","LTSpice","analog circuit design","PCB layout","signal amplification","op-amp design"],"images":["../assets/hydrophone/muddsub_pcb.gif","../assets/hydrophone/pcb.png","../assets/hydrophone/sim.png"]}'>
             <div class="project-icon-img lav">🔊</div>
             <span class="project-icon-label">Hydrophone<br/>Amplifier</span>
           </div>
 
-          <div class="project-icon"
-               data-tags="mechanical,robotics"
-               data-project='{"emoji":"🏹","title":"Torpedo Launcher","dates":"Sep 2025 – Present","tags":[{"label":"mechanical","color":""},{"label":"SolidWorks","color":"sage"},{"label":"FEA","color":"cream"},{"label":"robotics","color":""}],"desc":"Designed a torpedo launcher for the RoboSub AUV using SolidWorks FEA and flow simulation to model force distribution and fluid dynamics under operational loads. Prototyped on a 3D printer, then manufactured a 2-inch diameter launcher using Fusion CAM and a DPM SX3P Bed Mill.","skills":["SolidWorks FEA","flow simulation","Fusion CAM","manual milling","3D printing","tolerancing"]}'>
+          <div class="project-icon" data-tags="mechanical,robotics" data-project='{"emoji":"🏹","title":"Torpedo Launcher","dates":"Sep 2025 – Present","tags":[{"label":"mechanical","color":""},{"label":"SolidWorks","color":"sage"},{"label":"FEA","color":"cream"},{"label":"robotics","color":""}],"desc":"To improve launch trajectory fidelity, I redesigned the torpedo launcher for a RoboSub AUV to release under a simultaneous, dual-pin unlatch. Using SolidWorks FEA and flow simulation, I modeled force and strain distributions under operational loads to determine pin width. I prototyped the design using 3D printing, then manufactured the 2-inch diameter launcher using Fusion CAM and a DPM SX3P Bed Mill.","skills":["SolidWorks FEA","flow simulation","Fusion CAM","manual milling","3D printing","tolerancing"],"images":["../assets/torpedo/launch.gif","../assets/torpedo/bottom_body.png","../assets/torpedo/full_body.png"]}'>
             <div class="project-icon-img crm">🏹</div>
             <span class="project-icon-label">Torpedo<br/>Launcher</span>
           </div>
 
-          <div class="project-icon"
-               data-tags="IOT,electrical,mechanical"
-               data-project='{"emoji":"🕐","title":"Analog Alarm Clock","dates":"Apr 2026 – May 2026","tags":[{"label":"IOT","color":""},{"label":"Raspberry Pi","color":"sage"},{"label":"mechanical","color":"cream"},{"label":"WiFi/BT","color":""}],"desc":"Designed a single-motor-actuated analog clock with second, minute, and hour hands, plus WiFi and Bluetooth connectivity for custom alarm sounds.\n\nDesigned a custom gearbox in SolidWorks with 1:60:360 gear ratios and validated dynamics using motion study. Breadboarded with a Raspberry Pi Pico 2W, 5V DC buck converter, lightweight stepper motor, and toggle switches.","skills":["SolidWorks motion study","gear design","Raspberry Pi Pico","stepper motor control","WiFi/BT connectivity","breadboarding"]}'>
+          <div class="project-icon" data-tags="IOT,electrical,mechanical" data-project='{"emoji":"🕐","title":"Analog Alarm Clock","dates":"June 2026 - Present","tags":[{"label":"mechanical","color":""},{"label":"SolidWorks","color":"sage"},{"label":"robotics","color":""}],"desc":"To intrsinsically sync the second, minute, and hour hands, I designed a single-motor-actuated analog clock, with WiFi and Bluetooth connectivity for custom alarm sounds.\n\nI designed the custom gearbox in SolidWorks with 1:60:360 gear ratios and validated the dynamics using a motion study. I am building the control board using a Raspberry Pi Pico 2W, 5V DC buck converter, lightweight stepper motor, and toggle switches.","skills":["SolidWorks motion study","gear design","Raspberry Pi Pico","stepper motor control","WiFi/BT connectivity","breadboarding"],"images":["../assets/clock/Clock_120x_Speed.gif"]}'>
             <div class="project-icon-img lav">🕐</div>
             <span class="project-icon-label">Analog Alarm<br/>Clock</span>
           </div>
 
-          <div class="project-icon"
-               data-tags="electrical,mechanical"
-               data-project='{"emoji":"💃","title":"Regenerative Dance Floor Tile","dates":"Jan 2025 – May 2025","tags":[{"label":"mechanical","color":""},{"label":"electrical","color":"sage"}],"desc":"Spring-loaded floor tile that converts mechanical energy from footsteps into stored electrical energy. Collaborated with a team of 3 to develop a step mechanism converting bidirectional linear motion to rotational motion, rated for a max load of 150 lbs, to backdrive a motor and generate electricity.\n\nConverted AC output to DC using a diode bridge rectifier; troubleshot conversion efficiency and battery-charging circuit behavior.","skills":["battery charging circuits","team collaboration","load analysis"]}'>
+          <div class="project-icon" data-tags="mechanical,robotics" data-project='{"emoji":"🐕","title":"Legged Locomotion over Deformable Terrain","dates":" May 2026– Aug 2026","tags":[{"label":"IOT","color":""},{"label":"PCB","color":""},{"label":"KiCAD","color":"sage"}],"desc":"Locomotion on deformable terrain, where robot–terrain motion coupling occurs, remains a gap in existing literature. Discrete probe-then-decide traversability strategies and deployment of legged robots in obstacle-dense environments like substations and construction sites raise a further question: Can a robot successfully exploit a yielding obstacle field? At small-to-moderate deformation, yielding terrain behaves approximately like a spring.\n\nThis motivates a spring loaded obstacle model. I designed and prototyped a novel locomotion test bed with spring-loaded obstacles mounted on a custom sliding mechanism to enable repeatable trials. Trials over variable obstacle spacings and stiffnesses with a caterpillar-inspired robot yielded observed trends in obstacle stiffness/spacing and traversal robustness.\n\nI additionally designed two camera mounts designed for robustness and fine-grain angle adjustment.","skills":["literature review","3D printing","tolerancing","MoCap"],"images":["../assets/roboland/analysis_recap.gif","../assets/roboland/design_recap.gif"]}'>
+            <div class="project-icon-img sage">🐕</div>
+            <span class="project-icon-label">Robotic Legged Locomotion</span>
+          </div>
+
+          <div class="project-icon" data-tags="electrical,mechanical" data-project='{"emoji":"💃","title":"Regenerative Dance Floor Tile","dates":"Jan 2025 – May 2025","tags":[{"label":"mechanical","color":""},{"label":"electrical","color":"sage"}],"desc":"I designed a spring-loaded floor tile to converter mechanical energy from footsteps into stored electrical energy. I collaborated with a team of 3 to develop a step mechanism converting bidirectional linear motion to rotational motion, rated for a max load of 150 lbs, to backdrive a motor and generate electricity.\n\nWe converted AC voltage output to DC using a diode bridge rectifie and troubleshot conversion efficiency and battery-charging circuit behavior.","skills":["battery charging circuits","team collaboration","load analysis"],"images":["../assets/dance_tile/step.gif"]}'>
             <div class="project-icon-img sage">💃</div>
             <span class="project-icon-label">Regen Dance<br/>Floor Tile</span>
           </div>
 
-          <div class="project-icon"
-               data-tags="IOT,mechanical"
-               data-project='{"emoji":"🌬","title":"CO₂ Level Indicator","dates":"Sep 2025 – Present","tags":[{"label":"IOT","color":""},{"label":"Raspberry Pi","color":"sage"},{"label":"I2C","color":"cream"},{"label":"SolidWorks","color":""}],"desc":"Prototyped a CO₂ level indicator interfacing with an SCD41 sensor over I2C for the Lab for Investigations of Local Air Quality at Claremont. Designed an enclosure in SolidWorks using an edit-in-context assembly workflow.\n\nWrote Linux, BASH, and IGOR scripts to transfer data in real-time to Firebase from PurpleAir and meteorological sensors running on legacy middleware.","skills":["I2C protocol","SCD41 sensor","Raspberry Pi","SolidWorks","Firebase","BASH scripting","IGOR Pro","data pipeline"]}'>
+          <div class="project-icon" data-tags="IOT,mechanical" data-project='{"emoji":"🌬","title":"CO₂ Level Indicator","dates":"Sep 2025 – Present","tags":[{"label":"IOT","color":""},{"label":"Raspberry Pi","color":"sage"},{"label":"I2C","color":"cream"},{"label":"SolidWorks","color":""}],"desc":"I prototyped a lower-cost CO₂ level indicator, interfacing with an SCD41 sensor over I2C for the Lab for Investigations of Local Air Quality at Claremont. I designed an enclosure in SolidWorks using an edit-in-context assembly workflow.\n\nTo transfer data in real-time to Firebase from PurpleAir and meteorological sensors running on legacy middlewarerote Linux, I wrote BASH, Python, and IGOR scripts.","skills":["I2C protocol","SCD41 sensor","Raspberry Pi","SolidWorks","Firebase","BASH scripting","IGOR Pro","data pipeline"],"images":["../assets/co2/demo_short.gif","../assets/co2/Sensor_Box_Assemb.gif"]}'>
             <div class="project-icon-img crm">🌬️</div>
             <span class="project-icon-label">CO₂ Level<br/>Indicator</span>
           </div>
 
-          <div class="project-icon"
-               data-tags="robotics,software"
-               data-project='{"emoji":"🤖","title":"FRC Control Systems","dates":"Aug 2021 – Jun 2025","tags":[{"label":"software","color":""},{"label":"Java","color":"sage"},{"label":"control systems","color":"cream"},{"label":"robotics","color":""}],"desc":"Software Lead for the Mechanical Science and Engineering Robotics Team. Implemented robot control systems for the FIRST Robotics Competition across four seasons, reaching Worlds division finals and semifinals twice.\n\nBuilt feedforward, current-limiting, and PID control loops in Java using encoders, IR gates, and limit switches. Troubleshot CAN loop failures, actuator issues, PDP faults, and sensor firmware bugs under competition conditions.","skills":["Java","PID control","feedforward control","CAN bus","encoder integration","FRC framework","real-time debugging","limit switches","IR sensors"]}'>
+          <div class="project-icon" data-tags="robotics,software" data-project='{"emoji":"🤖","title":"FRC Control Systems","dates":"Aug 2021 – Jun 2025","tags":[{"label":"software","color":""},{"label":"Java","color":"sage"},{"label":"control systems","color":"cream"},{"label":"robotics","color":""}],"desc":"To control a 125-lb robot thorugh a variety of game tasks, I led a team of 6 through building current-limiting, PID, and odometry algorithms in Java using encoders, IR gates, and limit switches. I troubleshot CAN loop failures, actuator issues, power distribution panel faults, and sensor firmware bugs under competition conditions.","skills":["Java","PID control","feedforward control","CAN bus","encoder integration","FRC framework","real-time debugging","limit switches","IR sensors"]}'>
             <div class="project-icon-img lav">🤖</div>
             <span class="project-icon-label">FRC Robot<br/>Control Systems</span>
           </div>
 
-          <div class="project-icon"
-               data-tags="software,robotics"
-               data-project='{"emoji":"🧭","title":"Motion Planners (OMPL)","dates":"Aug 2023 – Aug 2025","tags":[{"label":"software","color":""},{"label":"C++","color":"sage"},{"label":"motion planning","color":"cream"},{"label":"research","color":""}],"desc":"Implemented cHyRRT and cHySST — two motion planners for hybrid dynamical systems — in the C++ Open Motion Planning Library (OMPL). Applied to systems including a collision-resilient quadcopter and a bouncing ball.\n\nWrote C++ validation tests, Python visualization scripts, and a full VM image. Results written up and presented at IEEE CASE 2025.","skills":["C++","OMPL","motion planning","hybrid dynamical systems","Python visualization","academic writing","IEEE conference presentation"]}'>
+          <div class="project-icon" data-tags="software,robotics" data-project='{"emoji":"🧭","title":"Motion Planners (OMPL)","dates":"Aug 2023 – Aug 2025","tags":[{"label":"software","color":""},{"label":"C++","color":"sage"},{"label":"motion planning","color":"cream"},{"label":"research","color":""}],"desc":"To address the lack of planners for hybrid dynamical systems in the Open Motion Planning Library (OMPL), I implemented cHyRRT and cHySST — two motion planners for systems with both disrete and continuous dynamics — in the C++ Open Motion Planning Library (OMPL). I applied these planners to systems including a collision-resilient quadcopter and a bouncing ball.\n\nWrote C++ validation tests, Python visualization scripts, and a full VM image. I wrote and presented on the results of my work at IEEE CASE 2025.","skills":["C++","OMPL","motion planning","hybrid dynamical systems","Python visualization","academic writing","IEEE conference presentation"],"images":["../assets/ompl/results.png"]}'>
             <div class="project-icon-img sage">🧭</div>
             <span class="project-icon-label">OMPL Motion<br/>Planners</span>
           </div>
@@ -326,6 +368,14 @@
             <h2 class="modal-title" id="modal-title"></h2>
             <p class="modal-dates" id="modal-dates"></p>
           </div>
+        </div>
+        <div class="modal-gallery" id="modal-gallery" style="display:none;">
+          <div class="gallery-frame">
+            <button class="gallery-prev" id="gallery-prev">‹</button>
+            <img id="modal-main-img" src="" alt="project image">
+            <button class="gallery-next" id="gallery-next">›</button>
+          </div>
+          <div class="gallery-thumbs" id="gallery-thumbs"></div>
         </div>
         <div class="modal-tags" id="modal-tags"></div>
         <p class="modal-desc" id="modal-desc" style="white-space: pre-line;"></p>
@@ -367,6 +417,46 @@
         p.textContent = s;
         skillsEl.appendChild(p);
       });
+
+      // IMAGE GALLERY
+      const galleryWrap = document.getElementById('modal-gallery');
+      const mainImg = document.getElementById('modal-main-img');
+      const thumbs = document.getElementById('gallery-thumbs');
+      const prevBtn = document.getElementById('gallery-prev');
+      const nextBtn = document.getElementById('gallery-next');
+      const images = (data.images || []).slice(0, 8); // limit to reasonable number
+
+      let currentIndex = 0;
+
+      function renderMain(index) {
+        if (!images || images.length === 0) return;
+        mainImg.src = images[index];
+        // update active thumb
+        Array.from(thumbs.children).forEach((t, i) => {
+          t.classList.toggle('active-thumb', i === index);
+        });
+        currentIndex = index;
+      }
+
+      thumbs.innerHTML = '';
+      if (images && images.length > 0) {
+        galleryWrap.style.display = '';
+        images.forEach((src, i) => {
+          const t = document.createElement('img');
+          t.src = src;
+          t.alt = data.title + ' thumb ' + (i+1);
+          t.addEventListener('click', () => renderMain(i));
+          thumbs.appendChild(t);
+        });
+        // initial render
+        renderMain(0);
+
+        prevBtn.onclick = () => renderMain((currentIndex - 1 + images.length) % images.length);
+        nextBtn.onclick = () => renderMain((currentIndex + 1) % images.length);
+      } else {
+        galleryWrap.style.display = 'none';
+        mainImg.src = '';
+      }
 
       modalBg.classList.add('open');
       document.body.style.overflow = 'hidden';
